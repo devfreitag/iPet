@@ -17,13 +17,13 @@ export default class Home extends Component {
       <View style={{margin: 10, flex:1, flexDirection: 'row', justifyContent: 'center'}}>
         <Icon
           style={{marginTop: 5}}
-          name={'arrow-left'}
+          name={'chevron-left'}
           size={20}
           onPress={() => {
             navigation.goBack();
           }}
         />
-        <Text style={{fontSize: 20, marginLeft: 10, /*fontWeight: 'bold'*/}}>Home</Text>
+        <Text style={{fontSize: 20, marginLeft: 10}}>Home</Text>
       </View>
     )
   });
