@@ -16,7 +16,10 @@ Fornecer um portal prático e intuitivo para doação e adoção de cães e gato
 ## Printscreen
 
 ### Home:
-![home](https://github.com/willyamcts/Projeto-iPet/blob/master/home.png)
+![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/home.png)
 
 ### Adoção:
 ![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/adocao.png)
+
+### Informação do Animal:
+![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/infoAnimal.png)
