@@ -7,7 +7,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import ButtonRoutes from '../components/ButtonRoutes';
+import {ButtonRoutes} from '../components/Buttons';
 
 export default class Home extends Component {
   _irParaAdocao = () => {

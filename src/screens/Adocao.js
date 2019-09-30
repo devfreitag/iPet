@@ -8,24 +8,14 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Header from '../components/Header';
+import Title from '../components/Title';
+import {ButtonInfo} from '../components/Buttons';
 
 export default class Home extends Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: null,
-    headerLeft: (
-      <View style={{margin: 10, flex:1, flexDirection: 'row', justifyContent: 'center'}}>
-        <Icon
-          style={{marginTop: 5}}
-          name={'chevron-left'}
-          size={20}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-        <Text style={{fontSize: 20, marginLeft: 10}}>Home</Text>
-      </View>
-    )
+    headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
   });
 
   state = {
@@ -61,12 +51,14 @@ export default class Home extends Component {
     ],
   };
 
+  _irParaInfoAnimal = () => {
+    this.props.navigation.navigate('InfoAnimal');
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.viewTitle}>
-          <Text style={styles.title}>Adotar</Text>
-        </View>
+        <Title />
         <FlatList
           data={this.state.data}
           keyExtractor={item => item.id}
@@ -85,9 +77,7 @@ export default class Home extends Component {
                     {item.age} {item.time}
                   </Text>
                   <Text style={styles.textDescription}>{item.description}</Text>
-                  <TouchableHighlight style={styles.button}>
-                    <Text style={styles.textButton}> Mais informações</Text>
-                  </TouchableHighlight>
+                  <ButtonInfo onPress={() => this._irParaInfoAnimal()} />
                 </View>
               </View>
             );
@@ -111,15 +101,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: 'italic',
   },
-  textButton: {
-    color: 'white',
-    fontSize: 18,
-  },
-  title: {
-    color: '#2fb7a7',
-    fontSize: 54,
-    fontFamily: 'GROBOLD',
-  },
   viewImage: {
     height: 120,
     width: 120,
@@ -129,12 +110,6 @@ const styles = StyleSheet.create({
   viewData: {
     justifyContent: 'center',
     marginLeft: 10,
-  },
-  viewTitle: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 30,
   },
   image: {
     width: 120,
@@ -150,15 +125,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: 'grey',
     borderBottomWidth: 2,
-  },
-  button: {
-    backgroundColor: '#2fb7a7',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    width: Dimensions.get('window').width / 2,
-    height: Dimensions.get('window').height / 22,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
