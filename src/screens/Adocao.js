@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Header from '../components/Header';
 import Title from '../components/Title';
+import AnimalPicture from '../components/AnimalPicture';
 import {ButtonInfo} from '../components/Buttons';
 
 export default class Home extends Component {
@@ -29,7 +30,7 @@ export default class Home extends Component {
       },
       {
         id: '2',
-        name: 'Laila',
+        name: 'Zuca',
         age: 5,
         time: 'meses',
         description: 'bla bla bla bla',
@@ -43,7 +44,7 @@ export default class Home extends Component {
       },
       {
         id: '4',
-        name: 'Zuca',
+        name: 'Laila',
         age: 4,
         time: 'anos',
         description: 'bla bla bla bla',
@@ -65,12 +66,7 @@ export default class Home extends Component {
           renderItem={({item}) => {
             return (
               <View style={styles.item}>
-                <View style={styles.viewImage}>
-                  <Image
-                    source={require('../../imgs/dog1.jpg')}
-                    style={styles.image}
-                  />
-                </View>
+                <AnimalPicture />
                 <View style={styles.viewData}>
                   <Text style={styles.text}>{item.name}</Text>
                   <Text style={styles.text}>
@@ -101,20 +97,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: 'italic',
   },
-  viewImage: {
-    height: 120,
-    width: 120,
-    justifyContent: 'center',
-    borderRadius: 20,
-  },
   viewData: {
     justifyContent: 'center',
     marginLeft: 10,
-  },
-  image: {
-    width: 120,
-    height: 120,
-    borderRadius: 10,
   },
   item: {
     alignItems: 'center',

@@ -12,7 +12,7 @@ const mainNavigation = createStackNavigator(
     InfoAnimal,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'InfoAnimal',
   },
 );
 
