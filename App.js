@@ -16,4 +16,15 @@ const mainNavigation = createStackNavigator(
   },
 );
 
+//componentDidMount() {
+//  FirebaseService.getDataList('leituras', dataIn => this.setState({dataList: dataIn}), 10);
+//};
+
+//state = 
+//{
+//  dataList: null,
+//};
+
+
+
 export default createAppContainer(mainNavigation);
