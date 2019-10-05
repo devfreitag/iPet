@@ -16,7 +16,7 @@ export default function Contact() {
           />
         </View>
         <View style={styles.viewInfoContact}>
-          <Text>Entre em contanto com:</Text>
+          <Text>Entre em contato com:</Text>
           <Text>NOME DA DONA - (47) 9999-9999</Text>
         </View>
       </View>
