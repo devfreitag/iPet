@@ -10,6 +10,10 @@ import {
 import {ButtonRoutes} from '../components/Buttons';
 
 export default class Home extends Component {
+  static navigationOptions = ({navigation, screenProps}) => ({
+    header: null,
+  });
+
   _irParaAdocao = () => {
     this.props.navigation.navigate('Adocao');
   };
