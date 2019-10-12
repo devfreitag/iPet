@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, TextInput, Picker, Switch} from 'react-native';
+import {StyleSheet, View, Alert, TextInput, Picker} from 'react-native';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,8 +12,17 @@ export default class Doacao extends Component {
   });
 
   state = {
+    dono: '',
+    telefone: '',
     especie: '',
+    idade: null,
     genero: '',
+    caracteristicas: '',
+  };
+
+  handleSubmit = () => {
+    Alert.alert("Cadastro realizado com sucesso! " + this.state.caracteristicas);
+    this.props.navigation.navigate('Adocao');
   };
 
   render() {
@@ -21,8 +30,15 @@ export default class Doacao extends Component {
       <View style={styles.container}>
         <Title name="DOAR" />
         <View style={styles.viewForm}>
-          <TextInput style={styles.inputs} placeholder="Responsável" />
           <TextInput
+            value={this.state.dono}
+            onChangeText={e => this.setState({dono: e})}
+            style={styles.inputs}
+            placeholder="Responsável" 
+          />
+          <TextInput
+            value={this.state.telefone}
+            onChangeText={e => this.setState({telefone: e})}
             style={styles.inputs}
             placeholder="Telefone"
             keyboardType="phone-pad"
@@ -38,6 +54,8 @@ export default class Doacao extends Component {
             </Picker>
           </View>
           <TextInput
+            value={this.state.idade}
+            onChangeText={e => this.setState({idade: e})}
             style={styles.inputs}
             placeholder="Idade"
             keyboardType="number-pad"
@@ -53,6 +71,8 @@ export default class Doacao extends Component {
             </Picker>
           </View>
           <TextInput
+            value={this.state.caracteristicas}
+            onChangeText={e => this.setState({caracteristicas: e})}
             style={[styles.inputs, styles.boxArea]}
             placeholder="Características"
           />
@@ -65,7 +85,10 @@ export default class Doacao extends Component {
             />
           </View>
           <View style={styles.btn}>
-            <ButtonRoutes name="Cadastrar" />
+            <ButtonRoutes
+              name="Cadastrar"
+              onPress={() => this.handleSubmit()}
+            />
           </View>
         </View>
       </View>
