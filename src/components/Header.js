@@ -1,17 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ButtonRoutes({onPress, name}) {
   return (
     <View style={styles.container}>
-      <Icon
-        style={styles.icon}
-        name={'chevron-left'}
-        size={20}
-        onPress={onPress}
-      />
-      <Text style={styles.text}>{name}</Text>
+      <TouchableOpacity onPress={onPress} style={styles.btn}>
+        <Icon style={styles.icon} name={'chevron-left'} size={20} />
+        <Text style={styles.text}>{name}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -20,6 +17,8 @@ const styles = StyleSheet.create({
   container: {
     margin: 10,
     flex: 1,
+  },
+  btn: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
