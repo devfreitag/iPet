@@ -13,7 +13,7 @@ import Title from '../components/Title';
 import AnimalPicture from '../components/AnimalPicture';
 import {ButtonInfo} from '../components/Buttons';
 
-export default class Home extends Component {
+export default class Adocao extends Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     title: null,
     headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
@@ -59,7 +59,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Title />
+        <Title name="Adotar"/>
         <FlatList
           data={this.state.data}
           keyExtractor={item => item.id}

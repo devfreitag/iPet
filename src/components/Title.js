@@ -4,7 +4,7 @@ import {View, StyleSheet, Text} from 'react-native';
 export default function Title({name}) {
   return (
     <View style={styles.viewTitle}>
-      <Text style={styles.title}>Adotar</Text>
+      <Text style={styles.title}>{name}</Text>
     </View>
   );
 }

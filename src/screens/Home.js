@@ -18,6 +18,10 @@ export default class Home extends Component {
     this.props.navigation.navigate('Adocao');
   };
 
+  _irParaDoacao = () => {
+    this.props.navigation.navigate('Doacao');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -26,7 +30,7 @@ export default class Home extends Component {
         </View>
         <View style={{flex: 4, justifyContent: 'center'}}>
           <ButtonRoutes onPress={() => this._irParaAdocao()} name='ADOÇÃO'/>
-          <ButtonRoutes onPress={() => this._irParaAdocao()} name='DOAÇÃO'/>
+          <ButtonRoutes onPress={() => this._irParaDoacao()} name='DOAÇÃO'/>
         </View>
         <View style={styles.viewImage}>
           <Image source={require('../../imgs/patas.png')} style={styles.image} />
