@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { ButtonRoutes } from '../components/Buttons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
@@ -13,15 +14,28 @@ export default class CameraExample extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    uri: '',
+    modalVisible: false,
   };
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({ hasCameraPermission: status === 'granted', modalVisible: false });
+  }
+
+  async handlePicture() {
+    console.log('Button Pressed');
+    if (this.camera) {
+      console.log('Taking photo');
+      let { uri } = await this.camera.takePictureAsync();
+      this.setState({ uri })
+      console.log(this.state.uri);
+    }
+    this.setState({ modalVisible: true})
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, uri } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -29,10 +43,22 @@ export default class CameraExample extends React.Component {
     } else {
       return (
         <View style={styles.container}>
+          <Modal
+            visible={this.state.modalVisible}
+            transparent={true}
+          >
+            <View style={{ backgroundColor: '#fff', flexDirection: 'column', alignContent: 'space-between', alignItems: 'center', margin: 30, borderColor: '#2fb7a7', borderWidth: 3}}>
+              <View style={{marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>
+                <Image source={{uri}} style={{height: 300, width: 300}} />
+              </View>
+              <ButtonRoutes onPress={() => this.setState({modalVisible: false})} name="Fechar modal" />
+            </View>
+          </Modal>
 					<Camera 
 						style={{ flex: 1 }}
 						ref={ref => { this.camera = ref}}
-						type={this.state.type}
+            type={this.state.type}
+            ratio={'16:9'}
           >
 
             <View style={styles.viewCamera}>
@@ -58,7 +84,7 @@ export default class CameraExample extends React.Component {
                       style={styles.icon}
                       name={'camera'}
                       size={60}
-                      onPress={() => this.handlePicture()}
+                      onPress={this.handlePicture.bind(this)}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity

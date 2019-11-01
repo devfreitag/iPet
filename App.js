@@ -16,7 +16,7 @@ const mainNavigation = createStackNavigator(
     Camera
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Camera',
   },
 );
 
