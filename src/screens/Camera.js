@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
@@ -36,26 +37,38 @@ export default class CameraExample extends React.Component {
 
             <View style={styles.viewCamera}>
               <View style={styles.viewHeader}>
-                <TouchableOpacity
-                  style={styles.viewButtons}
-                  onPress={() => {
-                    this.setState({
-                      type:
-                        this.state.type === Camera.Constants.Type.back
-                          ? Camera.Constants.Type.front
-                          : Camera.Constants.Type.back,
-                    });
+                  <TouchableOpacity
+                    style={styles.viewButtons}
+                    onPress={() => {
+                      this.setState({
+                        type:
+                          this.state.type === Camera.Constants.Type.back
+                            ? Camera.Constants.Type.front
+                            : Camera.Constants.Type.back,
+                      });
                   }}>
-                  <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.viewButtons, styles.viewIconPhoto]}>
-                  <Text style={{  fontSize: 18, marginBottom: 10, color: 'white' }}>teste</Text> 
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.viewButtons}>
-                  <View style={styles.galery}></View>
-                </TouchableOpacity>
+                    <Icon
+                      name={'undo'}
+                      size={40}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.viewButtons, styles.viewIconPhoto]}>
+                    <Icon
+                      style={styles.icon}
+                      name={'camera'}
+                      size={60}
+                      onPress={() => this.handlePicture()}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.viewButtons}>
+                    <Icon
+                      name={'image'}
+                      size={40}
+                      onPress={() => this.handlePicture()}
+                    />
+                  </TouchableOpacity>
               </View>
             </View>
           </Camera>
@@ -71,24 +84,36 @@ const styles = StyleSheet.create({
   },
   viewCamera: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'transparent',
     flexDirection: 'column-reverse'
   },
   viewHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'flex-end',
-    backgroundColor: 'blue',
-    paddingHorizontal: 20
+    backgroundColor: 'rgba(47, 183, 167, 0.75)',
+    paddingHorizontal: 10,
+    borderRadius: 50,
+    marginVertical: 40,
+    marginHorizontal: 30
   },
   viewButtons: {
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green'
   },
   viewIconPhoto: {
-    flex: 3
+    flex: 3,
+    //height: 100,
+    alignSelf:'center',
+    marginVertical: -15
+  },
+  icon: {
+    backgroundColor: '#fff',
+    borderRadius: 70,
+    padding: 25,
+    borderWidth: 3,
+    textAlign: 'center'
   },
   galery: {
     height:70,
