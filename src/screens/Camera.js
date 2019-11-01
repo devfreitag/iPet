@@ -47,57 +47,55 @@ export default class CameraExample extends React.Component {
             visible={this.state.modalVisible}
             transparent={true}
           >
-            <View style={{ backgroundColor: '#fff', flexDirection: 'column', alignContent: 'space-between', alignItems: 'center', margin: 30, borderColor: '#2fb7a7', borderWidth: 3}}>
-              <View style={{marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>
-                <Image source={{uri}} style={{height: 300, width: 300}} />
+            <View style={styles.viewModal}>
+              <View style={styles.viewModalPicture}>
+                <View style={{marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>
+                  <Image source={{uri}} style={{height:400, width: 400, resizeMode: 'contain'}} />
+                </View>
+                <ButtonRoutes onPress={() => this.setState({modalVisible: false})} name="Fechar" />
               </View>
-              <ButtonRoutes onPress={() => this.setState({modalVisible: false})} name="Fechar modal" />
             </View>
           </Modal>
 					<Camera 
-						style={{ flex: 1 }}
+						style={{ flex: 4 }}
 						ref={ref => { this.camera = ref}}
             type={this.state.type}
-            ratio={'16:9'}
           >
-
-            <View style={styles.viewCamera}>
+          </Camera>
+            <View style={styles.viewMenu}>
               <View style={styles.viewHeader}>
-                  <TouchableOpacity
-                    style={styles.viewButtons}
-                    onPress={() => {
-                      this.setState({
-                        type:
-                          this.state.type === Camera.Constants.Type.back
-                            ? Camera.Constants.Type.front
-                            : Camera.Constants.Type.back,
-                      });
-                  }}>
-                    <Icon
-                      name={'undo'}
-                      size={40}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.viewButtons, styles.viewIconPhoto]}>
-                    <Icon
-                      style={styles.icon}
-                      name={'camera'}
-                      size={60}
-                      onPress={this.handlePicture.bind(this)}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.viewButtons}>
-                    <Icon
-                      name={'image'}
-                      size={40}
-                      onPress={() => this.handlePicture()}
-                    />
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.viewButtons}
+                  onPress={() => {
+                    this.setState({
+                      type:
+                        this.state.type === Camera.Constants.Type.back
+                          ? Camera.Constants.Type.front
+                          : Camera.Constants.Type.back,
+                    });
+                }}>
+                  <Icon
+                    name={'undo'}
+                    size={40}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.viewButtons, styles.viewIconPhoto]}>
+                  <Icon
+                    style={styles.icon}
+                    name={'camera'}
+                    size={60}
+                    onPress={this.handlePicture.bind(this)}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.viewButtons}>
+                  <Icon
+                    name={'image'}
+                    size={40}
+                    onPress={() => this.handlePicture()}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
-          </Camera>
         </View>
       );
     }
@@ -108,10 +106,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  viewCamera: {
+  viewMenu: {
     flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'column-reverse'
+    backgroundColor: 'black',
+    flexDirection: 'column-reverse',
+    justifyContent: 'center',
   },
   viewHeader: {
     flexDirection: 'row',
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 50,
     marginVertical: 40,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   viewButtons: {
     flex: 2,
@@ -130,9 +129,24 @@ const styles = StyleSheet.create({
   },
   viewIconPhoto: {
     flex: 3,
-    //height: 100,
     alignSelf:'center',
     marginVertical: -15
+  },
+  viewModalPicture: {
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    alignContent: 'space-between',
+    justifyContent:'center',
+    alignItems: 'center',
+    borderColor: '#2fb7a7',
+    borderWidth: 3,
+    margin: 30,
+    borderRadius: 4
+  },
+  viewModal: {
+    flex: 1,
+    backgroundColor:'rgba(0,0,0,0.75)',
+    justifyContent: 'center'
   },
   icon: {
     backgroundColor: '#fff',
