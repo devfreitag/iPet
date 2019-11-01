@@ -1,105 +1,122 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, Image, Modal, ActivityIndicator } from 'react-native';
 import { ButtonRoutes } from '../components/Buttons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
-export default class CameraExample extends React.Component {
+export default function CameraExample({ navigation }) {
   
-	static navigationOptions = ({navigation, screenProps}) => ({
+	/*static navigationOptions = ({navigation, screenProps}) => ({
 		header: null,
-	});  
+  });  */
+  const [cameraPermission, setCameraPermission] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState('');
   
   state = {
-    hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-    uri: '',
-    modalVisible: false,
+    type: Camera.Constants.Type.front,
   };
 
-  async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted', modalVisible: false });
-  }
+  useEffect(() => {
+    async function getPermission() {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      setCameraPermission(status === 'granted');
+    }
+    console.log('first effect');
+    getPermission();
+    setModalVisible(false);
+  }, []);
 
-  async handlePicture() {
-    console.log('Button Pressed');
+  /*useEffect(() => {
+    console.log('second effect');
+  }, [loading]);*/
+
+  async function handlePicture() {
+    console.log('button pressed');
+    setModalVisible(true);
+    closeActivityIndicator();
     if (this.camera) {
-      console.log('Taking photo');
+      console.log('taking photo');
       let { uri } = await this.camera.takePictureAsync();
-      this.setState({ uri })
-      console.log(this.state.uri);
+      console.log('get image -> ' + uri);
+      let imageTxt = uri;
+      console.log('get imagetxt -> ' + imageTxt);
+      setImage(imageTxt.toString());
+      console.log('set image -> ' + image);
     }
-    this.setState({ modalVisible: true})
-  }
+  };
 
-  render() {
-    const { hasCameraPermission, uri } = this.state;
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    } else {
-      return (
-        <View style={styles.container}>
-          <Modal
-            visible={this.state.modalVisible}
-            transparent={true}
-          >
-            <View style={styles.viewModal}>
-              <View style={styles.viewModalPicture}>
-                <View style={{marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>
-                  <Image source={{uri}} style={{height:400, width: 400, resizeMode: 'contain'}} />
-                </View>
-                <ButtonRoutes onPress={() => this.setState({modalVisible: false})} name="Fechar" />
+  closeActivityIndicator = () => setTimeout(() => setLoading(false), 3000);
+  console.log('teste');
+  /*if (cameraPermission === null) {
+    return <View />;
+  } else if (cameraPermission === false) {
+    return <Text>No access to camera</Text>;
+  } else {*/
+    return (
+      <View style={styles.container}>
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+        >
+          <View style={styles.viewModal}>
+            <View style={styles.viewModalPicture}>
+              <View style={{marginTop: 20, alignItems: 'center', justifyContent: 'center'}}>
+                {loading ? (
+                  <ActivityIndicator animating={true} />
+                ) : (
+                  <Image source={image} style={{height:400, width: 400, resizeMode: 'contain'}} />
+                )}                  
               </View>
+              <ButtonRoutes onPress={() => setModalVisible(false)} name="Fechar" />
             </View>
-          </Modal>
-					<Camera 
-						style={{ flex: 4 }}
-						ref={ref => { this.camera = ref}}
-            type={this.state.type}
-          >
-          </Camera>
-            <View style={styles.viewMenu}>
-              <View style={styles.viewHeader}>
-                <TouchableOpacity
-                  style={styles.viewButtons}
-                  onPress={() => {
-                    this.setState({
-                      type:
-                        this.state.type === Camera.Constants.Type.back
-                          ? Camera.Constants.Type.front
-                          : Camera.Constants.Type.back,
-                    });
-                }}>
-                  <Icon
-                    name={'undo'}
-                    size={40}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.viewButtons, styles.viewIconPhoto]}>
-                  <Icon
-                    style={styles.icon}
-                    name={'camera'}
-                    size={60}
-                    onPress={this.handlePicture.bind(this)}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.viewButtons}>
-                  <Icon
-                    name={'image'}
-                    size={40}
-                    onPress={() => this.handlePicture()}
-                  />
-                </TouchableOpacity>
-              </View>
+          </View>
+        </Modal>
+        <Camera 
+          style={{ flex: 4 }}
+          ref={ref => { this.camera = ref}}
+          type={this.state.type}
+        >
+        </Camera>
+          <View style={styles.viewMenu}>
+            <View style={styles.viewHeader}>
+              <TouchableOpacity
+                style={styles.viewButtons}
+                onPress={() => {
+                  this.setState({
+                    type:
+                      this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                  });
+              }}>
+                <Icon
+                  name={'undo'}
+                  size={40}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.viewButtons, styles.viewIconPhoto]}>
+                <Icon
+                  style={styles.icon}
+                  name={'camera'}
+                  size={60}
+                  onPress={() => handlePicture()}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.viewButtons}>
+                <Icon
+                  name={'image'}
+                  size={40}
+                  //onPress={() => this.handlePicture()}
+                />
+              </TouchableOpacity>
             </View>
-        </View>
-      );
-    }
-  }
+          </View>
+      </View>
+    );
+  //}
 }
 
 const styles = StyleSheet.create({
