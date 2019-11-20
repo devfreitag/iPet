@@ -13,10 +13,13 @@ const mainNavigation = createStackNavigator(
     Adocao,
     InfoAnimal,
     Doacao,
-    Camera
+    Camera : {
+      screen: Camera,
+      navigationOptions: { header: null },
+    }
   },
   {
-    initialRouteName: 'Camera',
+    initialRouteName: 'Home',
   },
 );
 

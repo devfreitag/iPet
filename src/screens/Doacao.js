@@ -1,103 +1,125 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Alert, TextInput, Picker} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Alert, TextInput, Picker, AsyncStorage, Image} from 'react-native';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonRoutes} from '../components/Buttons';
 
-export default class Doacao extends Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
+
+import dog from '../../imgs/dog2.jpg';
+
+export default function Doacao  ({ navigation }) {
+  /*static navigationOptions = ({navigation, screenProps}) => ({
     title: null,
     headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
-  });
+  });*/
 
-  state = {
-    dono: '',
-    telefone: '',
-    especie: '',
-    idade: null,
-    genero: '',
-    caracteristicas: '',
-  };
+  const [image, setImage] = useState('');
+  const [dono, setDono] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [especie, setEspecie] = useState('');
+  const [idade, setIdade] = useState('');
+  const [genero, setGenero] = useState('');
+  const [caracteristicas, setCaracteristicas] = useState('');
+
+  useEffect(() => {
+    console.log('use effect doacao');
+    AsyncStorage.getItem('picture').then(picture => {
+      console.log(picture);
+      if (picture) setImage(picture);
+    })
+  }, []);
+
 
   handleSubmit = () => {
-    Alert.alert("Cadastro realizado com sucesso! " + this.state.caracteristicas);
-    this.props.navigation.navigate('Adocao');
+    Alert.alert("Cadastro realizado com sucesso! ");
+    navigation.navigate('Adocao');
   };
 
   handlePicture = () => {
-    this.props.navigation.navigate('Camera');
+    navigation.setParams({ name: 'teste'});
+    navigation.navigate('Camera');
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Title name="DOAR" />
-        <View style={styles.viewForm}>
-          <TextInput
-            value={this.state.dono}
-            onChangeText={e => this.setState({dono: e})}
-            style={styles.inputs}
-            placeholder="Responsável" 
-          />
-          <TextInput
-            value={this.state.telefone}
-            onChangeText={e => this.setState({telefone: e})}
-            style={styles.inputs}
-            placeholder="Telefone"
-            keyboardType="phone-pad"
-          />
-          <View style={styles.inputs}>
-            <Picker
-              selectedValue={this.state.especie}
-              onValueChange={(itemValue, itemIndex) => {
-                this.setState({especie: itemValue});
-              }}>
-              <Picker.Item label="Cão" value="cao" />
-              <Picker.Item label="Gato" value="gato" />
-            </Picker>
-          </View>
-          <TextInput
-            value={this.state.idade}
-            onChangeText={e => this.setState({idade: e})}
-            style={styles.inputs}
-            placeholder="Idade"
-            keyboardType="number-pad"
-          />
-          <View style={styles.inputs}>
-            <Picker
-              selectedValue={this.state.genero}
-              onValueChange={(itemValue, itemIndex) => {
-                this.setState({genero: itemValue});
-              }}>
-              <Picker.Item label="Macho" value="macho" />
-              <Picker.Item label="Fêmea" value="femea" />
-            </Picker>
-          </View>
-          <TextInput
-            value={this.state.caracteristicas}
-            onChangeText={e => this.setState({caracteristicas: e})}
-            style={[styles.inputs, styles.boxArea]}
-            placeholder="Características"
-          />
-          <View style={styles.viewIcon}>
+  callback = () => {
+    AsyncStorage.getItem('picture').then(picture => {
+      console.log(picture);
+      if (picture) setImage(picture);
+    });
+  }
+
+  
+  return (
+    <View style={styles.container}>
+      <Title name="DOAR" />
+      <View style={styles.viewForm}>
+        <TextInput
+          value={dono}
+          onChangeText={setDono}
+          style={styles.inputs}
+          placeholder="Responsável" 
+        />
+        <TextInput
+          value={telefone}
+          onChangeText={setTelefone}
+          style={styles.inputs}
+          placeholder="Telefone"
+          keyboardType="phone-pad"
+        />
+        <View style={styles.inputs}>
+          <Picker
+            selectedValue={especie}
+            onValueChange={(itemValue, itemIndex) => {
+              setEspecie(itemValue);
+            }}>
+            <Picker.Item label="Cão" value="cao" />
+            <Picker.Item label="Gato" value="gato" />
+          </Picker>
+        </View>
+        <TextInput
+          value={idade}
+          onChangeText={setIdade}
+          style={styles.inputs}
+          placeholder="Idade"
+          keyboardType="number-pad"
+        />
+        <View style={styles.inputs}>
+          <Picker
+            selectedValue={genero}
+            onValueChange={(itemValue, itemIndex) => {
+              setGenero(itemValue);
+            }}>
+            <Picker.Item label="Macho" value="macho" />
+            <Picker.Item label="Fêmea" value="femea" />
+          </Picker>
+        </View>
+        <TextInput
+          value={caracteristicas}
+          onChangeText={setCaracteristicas}
+          style={[styles.inputs, styles.boxArea]}
+          placeholder="Características"
+        />
+        <View style={styles.viewIcon}>
+          {image ? (
+            <Image source={image}/>
+          ) : (
             <Icon
               style={styles.icon}
               name={'camera'}
               size={40}
               onPress={() => this.handlePicture()}
             />
-          </View>
-          <View style={styles.btn}>
-            <ButtonRoutes
-              name="Cadastrar"
-              onPress={() => this.handleSubmit()}
-            />
-          </View>
+          )}
+        </View>
+        <View style={styles.btn}>
+          <ButtonRoutes
+            name="Cadastrar"
+            onPress={() => this.handleSubmit()}
+          />
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -121,6 +143,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 10,
+    padding: 5,
     height: 40,
     justifyContent: 'center',
   },

@@ -3,7 +3,15 @@ import {TouchableHighlight, StyleSheet, Text, Dimensions} from 'react-native';
 
 export function ButtonRoutes({onPress, name}) {
   return (
-    <TouchableHighlight style={styles.buttonRoute} onPress={onPress}>
+    <TouchableHighlight style={[styles.button, styles.buttonRoute]} onPress={onPress}>
+      <Text style={styles.textRoute}>{name}</Text>
+    </TouchableHighlight>
+  );
+}
+
+export function ButtonCamera({onPress, name}) {
+  return (
+    <TouchableHighlight style={styles.button} onPress={onPress}>
       <Text style={styles.textRoute}>{name}</Text>
     </TouchableHighlight>
   );
@@ -11,7 +19,7 @@ export function ButtonRoutes({onPress, name}) {
 
 export function ButtonInfo({onPress}) {
   return (
-    <TouchableHighlight style={styles.buttonInfo} onPress={onPress}>
+    <TouchableHighlight style={[styles.button, styles.buttonInfo]} onPress={onPress}>
       <Text style={styles.textInfo}> Mais informações</Text>
     </TouchableHighlight>
   );
@@ -23,25 +31,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  buttonRoute: {
+  button: {
     backgroundColor: '#2fb7a7',
     padding: 10,
     borderRadius: 5,
     margin: 10,
-    width: Dimensions.get('window').width / 1.5,
-    height: Dimensions.get('window').height / 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  buttonRoute: {
+    width: Dimensions.get('window').width / 1.5,
+    height: Dimensions.get('window').height / 10,
+  },
   buttonInfo: {
-    backgroundColor: '#2fb7a7',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
     width: Dimensions.get('window').width / 2,
     height: Dimensions.get('window').height / 22,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   textInfo: {
     color: 'white',
