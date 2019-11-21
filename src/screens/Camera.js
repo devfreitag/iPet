@@ -27,6 +27,8 @@ export default function Foto ({ navigation, props }) {
   async function handlePicture() {
     setModalVisible(true);
     if (this.camera) {
+      const photoData = await this.camera.takePictureAsync();
+      console.log(photoData);
       setImage(await this.camera.takePictureAsync());
     }
     setLoading(false);

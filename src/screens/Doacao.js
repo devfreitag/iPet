@@ -4,11 +4,16 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ButtonRoutes} from '../components/Buttons';
+import { withNavigationFocus } from 'react-navigation';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import * as firebase from 'firebase';
+import ApyKeys from '../config/firebase';
 
 
 import dog from '../../imgs/dog2.jpg';
 
-export default function Doacao  ({ navigation }) {
+function Doacao  ({ navigation, isFocused }) {
   /*static navigationOptions = ({navigation, screenProps}) => ({
     title: null,
     headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
@@ -28,26 +33,59 @@ export default function Doacao  ({ navigation }) {
       console.log(picture);
       if (picture) setImage(picture);
     })
+  }, [isFocused]);
+
+  useEffect(() => {
+    this.getPermissionCameraRoll();
+    this.getPermissionCamera();
   }, []);
 
+  getPermissionCameraRoll = async () => {
+    let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+  }
+
+  getPermissionCamera = async () => {
+    let { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+  }
 
   handleSubmit = () => {
     Alert.alert("Cadastro realizado com sucesso! ");
     navigation.navigate('Adocao');
   };
 
-  handlePicture = () => {
-    navigation.setParams({ name: 'teste'});
-    navigation.navigate('Camera');
+  handlePicture = async () => {
+    console.log("try");
+    let result = await ImagePicker.launchCameraAsync();
+    
+    if (!result.cancelled) {
+      console.log("start");
+      this.uploadImage(result.uri)
+      .then(() => {
+        console.log("deu boa");
+        Alert.alert("Sucess");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        Alert.alert(error.message);
+      });
+    }
   }
 
-  callback = () => {
-    AsyncStorage.getItem('picture').then(picture => {
-      console.log(picture);
-      if (picture) setImage(picture);
-    });
+  uploadImage = async (uri) => {
+    if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    console.log("log2 blob->" + blob);
+    var ref = firebase.storage().ref().child("my-image");
+    console.log("log3 ref->" + ref);
+    return ref.put(blob);
   }
-
   
   return (
     <View style={styles.container}>
@@ -100,16 +138,14 @@ export default function Doacao  ({ navigation }) {
           placeholder="Características"
         />
         <View style={styles.viewIcon}>
-          {image ? (
-            <Image source={image}/>
-          ) : (
+          
             <Icon
               style={styles.icon}
               name={'camera'}
               size={40}
-              onPress={() => this.handlePicture()}
+              onPress={this.handlePicture}
             />
-          )}
+          
         </View>
         <View style={styles.btn}>
           <ButtonRoutes
@@ -154,3 +190,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default withNavigationFocus(Doacao);
