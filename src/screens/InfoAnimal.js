@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text } from 'react-native';
 import Title from '../components/Title';
 import Contact from '../components/Contact';
 import * as firebase from 'firebase';
@@ -28,7 +21,7 @@ export default InfoAnimal = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Title />
+      <Title name="Info"/>
       <View style={styles.info}>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textAge}>{age} anos</Text>
@@ -49,11 +42,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   info: {
+    backgroundColor: '#2fb7a7',
     marginHorizontal: 20,
+    borderRadius: 10,
+    padding: 15
   },
   textName: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf: 'center'
   },
   textAge: {
     fontSize: 19,

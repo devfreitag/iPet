@@ -31,10 +31,12 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     alignContent: 'center',
+    backgroundColor: '#2fb7a7'
   },
   viewContact: {
     flexDirection: 'row',
-    borderBottomWidth: 2,
+    borderWidth: 2,
+    borderColor: 'white',
     borderRadius: 8,
   },
   viewIcon: {
@@ -52,6 +54,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginTop: 5,
-    color: '#2fb7a7',
+    color: 'white',
   },
 });
