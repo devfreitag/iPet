@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimalPicture from '../components/AnimalPicture';
 
-export default function Contact() {
+export default function Contact({ owner, phone }) {
+  useEffect(() => {
+    console.log('teste->'+owner);
+  },[]);
+
+
   return (
     <View style={styles.container}>
       <View style={styles.viewContact}>
@@ -17,7 +22,7 @@ export default function Contact() {
         </View>
         <View style={styles.viewInfoContact}>
           <Text>Entre em contato com:</Text>
-          <Text>NOME DA DONA - (47) 9999-9999</Text>
+          <Text style={styles.ownerData}>{owner} - {phone}</Text>
         </View>
       </View>
       <View style={styles.viewImage}>
@@ -46,6 +51,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 10,
     fontSize: 20,
+  },
+  ownerData: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 25
   },
   viewImage: {
     alignItems: 'center',

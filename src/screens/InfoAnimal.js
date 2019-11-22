@@ -9,6 +9,8 @@ export default InfoAnimal = ({ navigation }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [description, setDescription] = useState('');
+  const [owner, setOwner] = useState('');
+  const [phone, setPhone] = useState('');
 
   useEffect(() => {
     const id = navigation.getParam('id', 0);
@@ -16,12 +18,15 @@ export default InfoAnimal = ({ navigation }) => {
       setName(data.toJSON().name);
       setAge(data.toJSON().age);
       setDescription(data.toJSON().description);
+      setOwner(data.toJSON().owner);
+      setPhone(data.toJSON().phone);
+      console.log('owner->'+data.toJSON().owner);
     });
   }, []);
 
   return (
     <View style={styles.container}>
-      <Title name="Info"/>
+      <Title name="Info" onPress={() => {navigation.goBack()}}/>
       <View style={styles.info}>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textAge}>{age} anos</Text>
@@ -29,7 +34,7 @@ export default InfoAnimal = ({ navigation }) => {
           {description}
         </Text>
         <View>
-          <Contact />
+          <Contact owner={owner} phone={phone} />
         </View>
       </View>
     </View>

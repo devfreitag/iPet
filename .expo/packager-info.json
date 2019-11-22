@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 15372,
-  "expoServerNgrokUrl": "https://dw-u48.anonymous.ipet.exp.direct",
-  "packagerNgrokUrl": "https://packager.dw-u48.anonymous.ipet.exp.direct",
-  "ngrokPid": 13700,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://dw-u48.freitag.ipet.exp.direct",
+  "packagerNgrokUrl": "https://packager.dw-u48.freitag.ipet.exp.direct",
+  "ngrokPid": 18852,
   "webpackServerPort": null
 }

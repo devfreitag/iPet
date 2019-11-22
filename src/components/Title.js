@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginLeft: 10,
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

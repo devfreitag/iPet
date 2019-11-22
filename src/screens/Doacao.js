@@ -55,7 +55,9 @@ function Doacao  ({ navigation, isFocused }) {
     firebase.database().ref(`data/`).push().set({
       name: dog,
       age,
-      description
+      description,
+      owner,
+      phone
     }).then(() => console.log("INSERTED!"))
     .catch((error) => console.log(error));
 
@@ -66,14 +68,11 @@ function Doacao  ({ navigation, isFocused }) {
   handlePicture = async () => {
     console.log("try");
     let result = await ImagePicker.launchCameraAsync();
-    AsyncStore.setItem('picture',  result.uri);
-    
     if (!result.cancelled) {
       console.log("start");
       this.uploadImage(result.uri)
       .then(() => {
         console.log("deu boa");
-        Alert.alert("Imagem salva");
       })
       .catch((error) => {
         console.log(error.message);
@@ -87,7 +86,7 @@ function Doacao  ({ navigation, isFocused }) {
     const response = await fetch(uri);
     const blob = await response.blob();
     console.log("log2 blob->" + blob);
-    var ref = firebase.storage().ref().child("my-image");
+    var ref = firebase.storage().ref().child('teste123.jpg');
     console.log("log3 ref->" + ref);
     return ref.put(blob);
   }

@@ -10,6 +10,8 @@ import Camera from './src/screens/Camera';
 import * as firebase from 'firebase';
 import ApyKeys from './src/config/firebase';
 
+console.disableYellowBox = true;
+
 const mainNavigation = createStackNavigator(
   {
     Home,
