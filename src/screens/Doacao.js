@@ -14,13 +14,13 @@ import ApyKeys from '../config/firebase';
 function Doacao  ({ navigation, isFocused }) {
 
   const [image, setImage] = useState('');
-  const [dono, setDono] = useState('');
-  const [cachorro, setCachorro] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [especie, setEspecie] = useState('');
-  const [idade, setIdade] = useState('');
-  const [genero, setGenero] = useState('');
-  const [caracteristicas, setCaracteristicas] = useState('');
+  const [owner, setOwner] = useState('');
+  const [dog, setDog] = useState('');
+  const [phone, setPhone] = useState('');
+  const [specie, setSpecie] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     console.log('use effect doacao');
@@ -50,6 +50,15 @@ function Doacao  ({ navigation, isFocused }) {
   }
 
   handleSubmit = () => {
+    if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
+
+    firebase.database().ref(`data/`).push().set({
+      name: dog,
+      age,
+      description
+    }).then(() => console.log("INSERTED!"))
+    .catch((error) => console.log(error));
+
     Alert.alert("Cadastro realizado com sucesso! ");
     navigation.navigate('Adocao');
   };
@@ -85,57 +94,57 @@ function Doacao  ({ navigation, isFocused }) {
   
   return (
     <View style={styles.container}>
-      <Title name="DOAR" />
+      <Title name="DOAR" onPress={() => navigation.goBack()} />
       <View style={styles.viewForm}>
         <TextInput
-          value={dono}
-          onChangeText={setDono}
+          value={owner}
+          onChangeText={setOwner}
           style={styles.inputs}
           placeholder="Responsável" 
         />
         <TextInput
-          value={telefone}
-          onChangeText={setTelefone}
+          value={phone}
+          onChangeText={setPhone}
           style={styles.inputs}
           placeholder="Telefone"
           keyboardType="phone-pad"
         />
         <TextInput
-          value={cachorro}
-          onChangeText={setCachorro}
+          value={dog}
+          onChangeText={setDog}
           style={styles.inputs}
           placeholder="Nome do cachorro" 
         />
         <View style={styles.inputs}>
           <Picker
-            selectedValue={especie}
+            selectedValue={specie}
             onValueChange={(itemValue, itemIndex) => {
-              setEspecie(itemValue);
+              setSpecie(itemValue);
             }}>
             <Picker.Item label="Cão" value="cao" />
             <Picker.Item label="Gato" value="gato" />
           </Picker>
         </View>
         <TextInput
-          value={idade}
-          onChangeText={setIdade}
+          value={age}
+          onChangeText={setAge}
           style={styles.inputs}
           placeholder="Idade"
           keyboardType="number-pad"
         />
         <View style={styles.inputs}>
           <Picker
-            selectedValue={genero}
+            selectedValue={gender}
             onValueChange={(itemValue, itemIndex) => {
-              setGenero(itemValue);
+              setGender(itemValue);
             }}>
             <Picker.Item label="Macho" value="macho" />
             <Picker.Item label="Fêmea" value="femea" />
           </Picker>
         </View>
         <TextInput
-          value={caracteristicas}
-          onChangeText={setCaracteristicas}
+          value={description}
+          onChangeText={setDescription}
           style={[styles.inputs, styles.boxArea]}
           placeholder="Características"
         />

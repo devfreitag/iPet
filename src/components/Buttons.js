@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
   },
   buttonInfo: {
     width: Dimensions.get('window').width / 2,
-    height: Dimensions.get('window').height / 22,
+    height: Dimensions.get('window').height / 20,
     borderColor: 'white',
-    borderWidth: 2
+    borderWidth: 2,
   },
   textInfo: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 20,
   },
 });

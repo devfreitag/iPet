@@ -7,19 +7,20 @@ import Doacao from './src/screens/Doacao';
 import InfoAnimal from './src/screens/InfoAnimal';
 import Camera from './src/screens/Camera';
 
+import * as firebase from 'firebase';
+import ApyKeys from './src/config/firebase';
+
 const mainNavigation = createStackNavigator(
   {
     Home,
     Adocao,
     InfoAnimal,
     Doacao,
-    Camera : {
-      screen: Camera,
-      navigationOptions: { header: null },
-    }
   },
   {
+    headerMode: 'none',
     initialRouteName: 'Home',
+    navigationOptions: { headerVisible: false }
   },
 );
 
@@ -31,6 +32,8 @@ const mainNavigation = createStackNavigator(
 //{
 //  dataList: null,
 //};
+
+firebase.initializeApp(ApyKeys.FirebaseConfig);
 
 const App = createAppContainer(mainNavigation);
 
