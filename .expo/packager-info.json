@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 8620,
-  "expoServerNgrokUrl": "https://5x-smw.anonymous.ipet.exp.direct",
-  "packagerNgrokUrl": "https://packager.5x-smw.anonymous.ipet.exp.direct",
-  "ngrokPid": 12796,
+  "packagerPid": 15372,
+  "expoServerNgrokUrl": "https://dw-u48.anonymous.ipet.exp.direct",
+  "packagerNgrokUrl": "https://packager.dw-u48.anonymous.ipet.exp.direct",
+  "ngrokPid": 13700,
   "webpackServerPort": null
 }

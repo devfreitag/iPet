@@ -11,16 +11,11 @@ import * as firebase from 'firebase';
 import ApyKeys from '../config/firebase';
 
 
-import dog from '../../imgs/dog2.jpg';
-
 function Doacao  ({ navigation, isFocused }) {
-  /*static navigationOptions = ({navigation, screenProps}) => ({
-    title: null,
-    headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
-  });*/
 
   const [image, setImage] = useState('');
   const [dono, setDono] = useState('');
+  const [cachorro, setCachorro] = useState('');
   const [telefone, setTelefone] = useState('');
   const [especie, setEspecie] = useState('');
   const [idade, setIdade] = useState('');
@@ -62,13 +57,14 @@ function Doacao  ({ navigation, isFocused }) {
   handlePicture = async () => {
     console.log("try");
     let result = await ImagePicker.launchCameraAsync();
+    AsyncStore.setItem('picture',  result.uri);
     
     if (!result.cancelled) {
       console.log("start");
       this.uploadImage(result.uri)
       .then(() => {
         console.log("deu boa");
-        Alert.alert("Sucess");
+        Alert.alert("Imagem salva");
       })
       .catch((error) => {
         console.log(error.message);
@@ -103,6 +99,12 @@ function Doacao  ({ navigation, isFocused }) {
           style={styles.inputs}
           placeholder="Telefone"
           keyboardType="phone-pad"
+        />
+        <TextInput
+          value={cachorro}
+          onChangeText={setCachorro}
+          style={styles.inputs}
+          placeholder="Nome do cachorro" 
         />
         <View style={styles.inputs}>
           <Picker

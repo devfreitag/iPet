@@ -1,87 +1,58 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight,
-  Dimensions,
   Image,
-  FlatList,
 } from 'react-native';
-import Header from '../components/Header';
 import Title from '../components/Title';
 import AnimalPicture from '../components/AnimalPicture';
 import {ButtonInfo} from '../components/Buttons';
+import * as firebase from 'firebase';
+import ApyKeys from '../config/firebase';
 
-export default class Adocao extends Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    title: null,
-    headerLeft: <Header onPress={() => navigation.goBack()} name="Home" />,
-  });
+export default Adocao = ({ navigation }) => {
 
-  state = {
-    data: [
-      {
-        id: '1',
-        name: 'Luna',
-        age: 2,
-        time: 'anos',
-        description: 'bla bla bla bla',
-      },
-      {
-        id: '2',
-        name: 'Zuca',
-        age: 5,
-        time: 'meses',
-        description: 'bla bla bla bla',
-      },
-      {
-        id: '3',
-        name: 'Rambo',
-        age: 6,
-        time: 'meses',
-        description: 'bla bla bla bla',
-      },
-      {
-        id: '4',
-        name: 'Laila',
-        age: 4,
-        time: 'anos',
-        description: 'bla bla bla bla',
-      },
-    ],
-  };
+  const [data, setData] = useState([]);
+
+  fetchData = async() => {
+    if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
+    console.log('inside funtion');
+    firebase.database().ref('animals').on('value', data => {
+      console.log(data.toJSON());
+      setData(data.toJSON());
+    });
+  }
+
+  useEffect(() => {
+    console.log('before');
+    this.fetchData();
+  }, []);
 
   _irParaInfoAnimal = () => {
-    this.props.navigation.navigate('InfoAnimal');
+    navigation.navigate('InfoAnimal');
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Title name="Adotar"/>
-        <FlatList
-          data={this.state.data}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return (
-              <View style={styles.item}>
-                <AnimalPicture />
-                <View style={styles.viewData}>
-                  <Text style={styles.text}>{item.name}</Text>
-                  <Text style={styles.text}>
-                    {item.age} {item.time}
-                  </Text>
-                  <Text style={styles.textDescription}>{item.description}</Text>
-                  <ButtonInfo onPress={() => this._irParaInfoAnimal()} />
-                </View>
+  return (
+    <View style={styles.container}>
+      <Title name="Adotar"/>
+        {Object.keys(data).map((keyName, i) => {
+          return (
+            <View key={i} style={styles.item}>
+              <AnimalPicture />
+              <View style={styles.viewData}>
+                <Text style={styles.text}>{data[keyName].name}</Text>
+                <Text style={styles.text}>
+                  {data[keyName].age} anos
+                </Text>
+                <Text style={styles.textDescription}>{data[keyName].description}</Text>
+                <ButtonInfo onPress={() => this._irParaInfoAnimal()} />
               </View>
-            );
-          }}
-        />
-      </View>
-    );
-  }
+            </View>
+          );
+        })}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -100,15 +71,16 @@ const styles = StyleSheet.create({
   viewData: {
     justifyContent: 'center',
     marginLeft: 10,
+    backgroundColor: 'white',
+    flex: 1,
   },
   item: {
     alignItems: 'center',
-    //backgroundColor: "#dcda48",
-    flexGrow: 1,
+    backgroundColor: '#2fb7a7',
     margin: 4,
     padding: 20,
     flexDirection: 'row',
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
+    borderRadius: 25,
+    height: 100
   },
 });
