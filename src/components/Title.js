@@ -1,52 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Font from 'expo-font';
+
 
 export default function Title({name, onPress}) {
+
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect( async () => {
+    console.log('loading');
+		await Font.loadAsync({
+      'GROBOLD': require('../../assets/fonts/GROBOLD.ttf'),
+    });
+    setFontLoaded(true);
+	}, []);
+
   return (
-    <View style={styles.container}>
-      
-      <TouchableOpacity onPress={onPress} style={styles.btn}>
-        <Icon style={styles.icon} name={'chevron-left'} size={40} />
-      </TouchableOpacity>
-      <View style={styles.viewTitle}>
+    fontLoaded ? (
       <Text style={styles.title}>{name}</Text>
-      </View>
-    </View>
+    ) : (
+      <Text>{name}</Text>
+    )
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 30,
-    marginBottom: 20,
-    //backgroundColor: 'blue'
-  },
-  viewTitle: {
-    alignSelf: 'center',
-    //backgroundColor: 'brown',
-    flex: 1
-  },
   title: {
-    color: '#2fb7a7',
-    fontSize: 54,
+    color: 'white',
+    fontSize: 70,
     fontFamily: 'GROBOLD',
-    alignSelf: 'center'
-  },
-  icon: {
-    marginTop: 5,
-    color: '#2fb7a7'
-  },
-  viewIcon: {
-    alignItems: 'flex-start',
-  },
-  btn: {
-    marginLeft: 10,
-    alignSelf: 'flex-start',
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignSelf: 'center',
+    marginTop: 130
   }
 });
