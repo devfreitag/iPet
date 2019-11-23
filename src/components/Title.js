@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Font from 'expo-font';
-
 
 export default function Title({name, onPress}) {
 

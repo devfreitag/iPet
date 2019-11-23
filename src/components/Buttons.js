@@ -25,6 +25,14 @@ export function ButtonInfo({onPress}) {
   );
 }
 
+export function ButtonSubmit({onPress, name}) {
+  return (
+    <TouchableHighlight style={[styles.button, styles.buttonSubmit]} onPress={onPress}>
+      <Text style={styles.textInfo}>{name}</Text>
+    </TouchableHighlight>
+  );
+}
+
 const styles = StyleSheet.create({
   textRoute: {
     color: 'white',
@@ -50,7 +58,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   textInfo: {
-    color: 'white',
-    fontSize: 20,
+    color: '#2fb7a7',
+    fontSize: 22,
+    fontWeight: 'bold'
   },
+  buttonSubmit: {
+    borderRadius: 50,
+    height: 50,
+    width: 190,
+    backgroundColor: 'white',
+  }
 });
