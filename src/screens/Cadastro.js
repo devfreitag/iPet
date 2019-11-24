@@ -25,10 +25,7 @@ export default Cadastro = ({ navigation }) => {
 					<Input placeholder="e-mail" icon="mail" />
 					<Input placeholder="senha" icon="lock" />
 				</View>
-				<ButtonSubmit name="LOGIN"/>
-				<TouchableHighlight>
-					<Text style={styles.text}>Não tem uma conta? <Text style={{fontWeight: 'bold'}}>CADASTRE-SE</Text> aqui.</Text>
-				</TouchableHighlight>
+				<ButtonSubmit name="CADASTRAR" onPress={() => navigation.navigate('Login')} />
 			</View>
 		</View>
 	)

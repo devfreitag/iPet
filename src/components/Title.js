@@ -6,12 +6,15 @@ export default function Title({name, onPress}) {
 
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  useEffect( async () => {
+  useEffect(() => {
     console.log('loading');
-		await Font.loadAsync({
-      'GROBOLD': require('../../assets/fonts/GROBOLD.ttf'),
-    });
-    setFontLoaded(true);
+    async function getFont() {
+      await Font.loadAsync({
+        'GROBOLD': require('../../assets/fonts/GROBOLD.ttf'),
+      });
+      setFontLoaded(true);
+    };
+    getFont();
 	}, []);
 
   return (
