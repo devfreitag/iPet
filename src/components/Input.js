@@ -3,23 +3,21 @@ import { View, TextInput, StyleSheet, Image } from 'react-native';
 
 export default function Input({placeholder, icon}) {
 
-	const [font, setFont] = useState('italic');
-	
 	var logo;
 	if (icon==='mail') logo = require('../../imgs/icons/mail.png');
-	else logo = require('../../imgs/icons/lock.png');
+	else if (icon==='lock') logo = require('../../imgs/icons/lock.png');
+	else if (icon==='user') logo = require('../../imgs/icons/user.png');
 	
 	return (
 		<View style={styles.container}>
-			<Image style={styles.img} source={logo}/>
+			<View style={{justifyContent: 'center', width: 40, paddingHorizontal: 10}}>
+				<Image style={styles.img} source={logo}/>
+			</View>
 			<TextInput 
 				placeholderTextColor="#A0A3A3"
 				placeholder={placeholder}
-				fontStyle={font==='italic' ? 'italic' : 'normal'}
 				style={styles.input}
-				onChange={() => {
-					setFont('normal');
-				}}
+				type='email'
 			/>
 		</View>	
 	)
@@ -34,7 +32,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
 		borderRadius: 5,
 		flexDirection: 'row',
-		marginBottom: 13
+		marginBottom: 13,
 	},
 	input: {
 		flex: 1,

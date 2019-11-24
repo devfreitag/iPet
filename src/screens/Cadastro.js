@@ -12,7 +12,7 @@ import Input from '../components/Input';
 import { ButtonSubmit } from '../components/Buttons';
 
 
-export default Login = ({ navigation }) => {
+export default Cadastro = ({ navigation }) => {
 
 	return (
 		<View style={{ flex: 1}}>
@@ -21,11 +21,12 @@ export default Login = ({ navigation }) => {
 				<Background />
 				<Title name="iPet"/>
 				<View style={styles.inputs}>
+					<Input placeholder="name" icon="user" />
 					<Input placeholder="e-mail" icon="mail" />
 					<Input placeholder="senha" icon="lock" />
 				</View>
-				<ButtonSubmit name="LOGIN" onPress={() => navigation.navigate('Home') }/>
-				<TouchableHighlight style={{marginTop: 10}} onPress={() => navigation.navigate('Cadastro')}>
+				<ButtonSubmit name="LOGIN"/>
+				<TouchableHighlight>
 					<Text style={styles.text}>Não tem uma conta? <Text style={{fontWeight: 'bold'}}>CADASTRE-SE</Text> aqui.</Text>
 				</TouchableHighlight>
 			</View>

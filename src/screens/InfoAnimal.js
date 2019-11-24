@@ -1,31 +1,54 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import {StyleSheet, View, Text, Modal } from 'react-native';
 import Title from '../components/Title';
 import Contact from '../components/Contact';
+import { ButtonCamera } from '../components/Buttons';
 import * as firebase from 'firebase';
+import { withNavigationFocus } from 'react-navigation';
 
-export default InfoAnimal = ({ navigation }) => {
+InfoAnimal = ({ navigation, id, isFocused }) => {
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [phone, setPhone] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const id = navigation.getParam('id', 0);
-    firebase.database().ref(`data/${id}`).on('value', data => {
-      setName(data.toJSON().name);
-      setAge(data.toJSON().age);
-      setDescription(data.toJSON().description);
-      setOwner(data.toJSON().owner);
-      setPhone(data.toJSON().phone);
-      console.log('owner->'+data.toJSON().owner);
-    });
-  }, []);
+    console.log('useEffect/id->['+id.length+']');
+    if (id.length!=0) {
+      console.log('passou da condicional');
+      firebase.database().ref(`data/${id}`).on('value', data => {
+        setName(data.toJSON().name);
+        setAge(data.toJSON().age);
+        setDescription(data.toJSON().description);
+        setOwner(data.toJSON().owner);
+        setPhone(data.toJSON().phone);
+        setModalVisible(true);
+        console.log('owner->'+data.toJSON().owner);
+      });
+    }
+  }, [id]);
+
 
   return (
-    <View style={styles.container}>
+    <Modal
+      visible={(id.length > 0 && modalVisible) ? true : false} 
+      transparent={false}
+      style={styles.modal}
+    >
+      <View>
+
+      </View>
+      <Text>Namea:{name}</Text>
+      <ButtonCamera onPress={() => {
+        id = '';
+        setModalVisible(false)} }
+      />
+
+    </Modal>
+    /*<View style={styles.container}>
       <Title name="Info" onPress={() => {navigation.goBack()}}/>
       <View style={styles.info}>
         <Text style={styles.textName}>{name}</Text>
@@ -37,11 +60,14 @@ export default InfoAnimal = ({ navigation }) => {
           <Contact owner={owner} phone={phone} />
         </View>
       </View>
-    </View>
+    </View>*/
   );
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    margin: 30
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -66,3 +92,5 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   }
 });
+
+export default withNavigationFocus(InfoAnimal);
