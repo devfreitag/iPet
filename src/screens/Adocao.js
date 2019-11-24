@@ -4,10 +4,12 @@ import {
   View,
   Text,
   ScrollView,
-  Modal
+  Modal,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import AnimalPicture from '../components/AnimalPicture';
-import {ButtonInfo} from '../components/Buttons';
+import {ButtonInfo, ButtonCamera} from '../components/Buttons';
 import * as firebase from 'firebase';
 import ApyKeys from '../config/firebase';
 import Background from '../components/Background';
@@ -18,6 +20,7 @@ export default Adocao = ({ navigation }) => {
 
   const [data, setData] = useState([]);
   const [id, setId] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   fetchData = async() => {
     if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
@@ -32,21 +35,42 @@ export default Adocao = ({ navigation }) => {
     this.fetchData();
   }, []);
 
+  /*useEffect(() => {
+    setModalVisible(visible);
+  }, [visible])*/
+
   _irParaInfoAnimal = (i) => {
     console.log(i);
     
     //navigation.navigate('InfoAnimal', {id: i});
   };
-  //{id && (/*setId(''), */console.log('chamando info/id->'+id), <InfoAnimal id={id} />)}
+  // <ButtonCamera onPress={() => setModalVisible(false)} name="Fechar" />
   return (
     <View style={{ flex: 1}}>
 			<View style={{ backgroundColor: "#2fb7a7", height: Constants.statusBarHeight}} />
       <View style={styles.backgroundView}>
         <Background />
         
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+              <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={{alignItems:'flex-end'}}
+                >
+                  <Image source={require('../../imgs/icons/close.png')} />
+                </TouchableOpacity>
+              <InfoAnimal id={id}/>
+            </View>
+            
+          </View>
+        </Modal>
         
-        <InfoAnimal id={id} />
-      
+
         <View style={styles.container}>
             <ScrollView>
               {Object.keys(data).map((keyName, i) => {
@@ -59,7 +83,10 @@ export default Adocao = ({ navigation }) => {
                         {data[keyName].age} anos
                       </Text>
                       <Text style={styles.textDescription}>{data[keyName].description.length > 60 ? data[keyName].description.substring(0,60) +  '...' : data[keyName].description}</Text>
-                      <ButtonInfo onPress={() => setId(keyName)} />
+                      <ButtonInfo onPress={() => {
+                        setModalVisible(true);
+                        setId(keyName);
+                        }} />
                     </View>
                   </View>
               );
@@ -81,6 +108,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: 10,
     borderRadius: 10
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'rgba(47,183,167,0.75)',
+    paddingHorizontal: 15
+  },
+  modalView: {
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 10,
+    padding: 10
   },
   text: {
     fontSize: 25,

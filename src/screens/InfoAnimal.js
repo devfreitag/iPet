@@ -1,22 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Modal } from 'react-native';
-import Title from '../components/Title';
+import {StyleSheet, View, Text } from 'react-native';
 import Contact from '../components/Contact';
-import { ButtonCamera } from '../components/Buttons';
 import * as firebase from 'firebase';
-import { withNavigationFocus } from 'react-navigation';
+import AnimalPicture from '../components/AnimalPicture';
 
-InfoAnimal = ({ navigation, id, isFocused }) => {
+export default InfoAnimal = ({ navigation, id }) => {
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [phone, setPhone] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect/id->['+id.length+']');
+    console.log('useEffect/id->['+id+']');
     if (id.length!=0) {
       console.log('passou da condicional');
       firebase.database().ref(`data/${id}`).on('value', data => {
@@ -25,34 +22,22 @@ InfoAnimal = ({ navigation, id, isFocused }) => {
         setDescription(data.toJSON().description);
         setOwner(data.toJSON().owner);
         setPhone(data.toJSON().phone);
-        setModalVisible(true);
         console.log('owner->'+data.toJSON().owner);
       });
     }
-  }, [id]);
+  }, []);
 
 
   return (
-    <Modal
-      visible={(id.length > 0 && modalVisible) ? true : false} 
-      transparent={false}
-      style={styles.modal}
-    >
-      <View>
-
-      </View>
-      <Text>Namea:{name}</Text>
-      <ButtonCamera onPress={() => {
-        id = '';
-        setModalVisible(false)} }
-      />
-
-    </Modal>
-    /*<View style={styles.container}>
-      <Title name="Info" onPress={() => {navigation.goBack()}}/>
+    console.log('return/id->'+id),
+    //<View style={styles.container}>
       <View style={styles.info}>
+        <View style={styles.viewImage}>
+          <AnimalPicture />
+        </View>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textAge}>{age} anos</Text>
+        <Text style={styles.textAge}>Fêmea</Text>
         <Text style={styles.textInfo}>
           {description}
         </Text>
@@ -60,37 +45,31 @@ InfoAnimal = ({ navigation, id, isFocused }) => {
           <Contact owner={owner} phone={phone} />
         </View>
       </View>
-    </View>*/
+    //</View>
   );
 }
 
 const styles = StyleSheet.create({
-  modal: {
-    margin: 30
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
   info: {
-    backgroundColor: '#2fb7a7',
-    marginHorizontal: 20,
-    borderRadius: 10,
-    padding: 15
+    padding: 15,
   },
   textName: {
     fontSize: 20,
     fontWeight: 'bold',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    color: '#2fb7a7'
   },
   textAge: {
     fontSize: 19,
+    color: '#2fb7a7'
   },
   textInfo: {
     fontSize: 17,
-    marginTop: 25,
-    fontStyle: 'italic'
+    marginTop: 20,
+    fontStyle: 'italic',
+    color: '#2fb7a7'
+  },
+  viewImage: {
+    alignItems: 'center'
   }
 });
-
-export default withNavigationFocus(InfoAnimal);
