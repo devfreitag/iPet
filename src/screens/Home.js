@@ -40,7 +40,7 @@ export default Home = ({ navigation }) => {
               <ButtonRoutes name="QUERO ADOTAR!" onPress={() => navigation.navigate('Adocao')}/>
             </View>
             <View style={{alignItems: 'flex-start'}}>
-              <ButtonRoutes name="QUERO DOAR!"/>
+              <ButtonRoutes name="QUERO DOAR!" onPress={() => navigation.navigate('CadastroAnimal')}/>
             </View>
           </View>
       </View>

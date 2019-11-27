@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Image } from 'react-native';
 
-export default function Input({placeholder, icon}) {
+export default function Input({placeholder, icon, type, value, onChangeText}) {
 
 	var logo;
 	if (icon==='mail') logo = require('../../imgs/icons/mail.png');
 	else if (icon==='lock') logo = require('../../imgs/icons/lock.png');
 	else if (icon==='user') logo = require('../../imgs/icons/user.png');
+	else if (icon==='pet') logo = require('../../imgs/icons/pet.png');
+	else if (icon==='birthday') logo = require('../../imgs/icons/birthday.png');
+	else if (icon==='gender') logo = require('../../imgs/icons/gender.png');
+	else if (icon==='description') logo = require('../../imgs/icons/description.png');
 	
 	return (
 		<View style={styles.container}>
@@ -16,8 +20,10 @@ export default function Input({placeholder, icon}) {
 			<TextInput 
 				placeholderTextColor="#A0A3A3"
 				placeholder={placeholder}
+				value={value}
+				onChangeText={onChangeText}
 				style={styles.input}
-				type='email'
+				keyboardType={type}
 			/>
 		</View>	
 	)
@@ -29,14 +35,14 @@ const styles = StyleSheet.create({
 		height: 47,
 		backgroundColor: 'white',
 		borderColor: 'white',
-    borderWidth: 1,
+    	borderWidth: 1,
 		borderRadius: 5,
 		flexDirection: 'row',
 		marginBottom: 13,
 	},
 	input: {
 		flex: 1,
-    padding: 5,
+    	padding: 5,
 		color: '#2fb7a7',
 	},
 	img: {

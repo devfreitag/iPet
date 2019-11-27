@@ -6,7 +6,8 @@ import Adocao from './src/screens/Adocao';
 import Doacao from './src/screens/Doacao';
 import InfoAnimal from './src/screens/InfoAnimal';
 import Login from './src/screens/Login';
-import Cadastro from './src/screens/Cadastro';
+import CadastroUser from './src/screens/CadastroUser';
+import CadastroAnimal from './src/screens/CadastroAnimal';
 
 import * as firebase from 'firebase';
 import ApyKeys from './src/config/firebase';
@@ -20,11 +21,12 @@ const mainNavigation = createStackNavigator(
     InfoAnimal,
     Doacao,
     Login,
-    Cadastro
+    CadastroUser,
+    CadastroAnimal
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Login',
+    initialRouteName: 'CadastroAnimal',
     navigationOptions: { headerVisible: false },
   },
 );

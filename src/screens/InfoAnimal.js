@@ -17,7 +17,7 @@ export default InfoAnimal = ({ navigation, id }) => {
     if (id.length!=0) {
       console.log('passou da condicional');
       firebase.database().ref(`data/${id}`).on('value', data => {
-        setName(data.toJSON().name);
+        setName(data.toJSON().pet);
         setAge(data.toJSON().age);
         setDescription(data.toJSON().description);
         setOwner(data.toJSON().owner);

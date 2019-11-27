@@ -25,7 +25,7 @@ export default Login = ({ navigation }) => {
 					<Input placeholder="senha" icon="lock" />
 				</View>
 				<ButtonSubmit name="LOGIN" onPress={() => navigation.navigate('Home')} />
-				<TouchableHighlight style={{marginTop: 10}} onPress={() => navigation.navigate('Cadastro')}>
+				<TouchableHighlight style={{marginTop: 10}} onPress={() => navigation.navigate('CadastroUser')}>
 					<Text style={styles.text}>Não tem uma conta? <Text style={{fontWeight: 'bold'}}>CADASTRE-SE</Text> aqui.</Text>
 				</TouchableHighlight>
 			</View>

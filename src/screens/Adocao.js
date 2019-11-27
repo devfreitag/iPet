@@ -35,10 +35,6 @@ export default Adocao = ({ navigation }) => {
     this.fetchData();
   }, []);
 
-  /*useEffect(() => {
-    setModalVisible(visible);
-  }, [visible])*/
-
   _irParaInfoAnimal = (i) => {
     console.log(i);
     
@@ -78,7 +74,7 @@ export default Adocao = ({ navigation }) => {
                   <View  key={i} style={styles.item}>
                     <AnimalPicture />
                     <View style={styles.viewData}>
-                      <Text style={[styles.text, {fontWeight: 'bold', alignSelf: 'center'}]}>{data[keyName].name}</Text>
+                      <Text style={[styles.text, {fontWeight: 'bold', alignSelf: 'center'}]}>{data[keyName].pet}</Text>
                       <Text style={styles.text}>
                         {data[keyName].age} anos
                       </Text>

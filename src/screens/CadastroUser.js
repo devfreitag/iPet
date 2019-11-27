@@ -12,7 +12,7 @@ import Input from '../components/Input';
 import { ButtonSubmit } from '../components/Buttons';
 
 
-export default Cadastro = ({ navigation }) => {
+export default CadastroUser = ({ navigation }) => {
 
 	return (
 		<View style={{ flex: 1}}>
