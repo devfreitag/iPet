@@ -4,7 +4,8 @@ import {
 	View,
 	Alert,
 	TouchableOpacity,
-	Image
+	Image,
+	ActivityIndicator
 } from 'react-native';
 import Background from '../components/Background';
 import Constants from 'expo-constants';
@@ -21,12 +22,33 @@ export default CadastroAnimal = ({ navigation }) => {
 	const [age, setAge] = useState('');
 	const [gender, setGender] = useState('');
 	const [description, setDescription] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [imageURI, setImageURI] = useState('');
 	const [imageName, setImageName] = useState('');
+	const [imagePath, setImagePath] = useState('');
 
 	useEffect(() => {
 		this.getPermissionCameraRoll();
 		this.getPermissionCamera();
 	}, []);
+
+	useEffect(() => {
+		if (imageURI!=='') {
+			this.uploadImage(imageURI)
+			.then(() => {
+				console.log("deu boa/img");
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.log("erro aqui");
+				Alert.alert(error.message);
+			});
+		}
+	}, [imageURI]);
+
+	useEffect(() => {
+		console.log('effect imageName->' + imageName);
+	}, [imageName])
 
 	getPermissionCameraRoll = async () => {
 		let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -45,55 +67,55 @@ export default CadastroAnimal = ({ navigation }) => {
 	handleSubmit = () => {
 		if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
 
-		firebase.database().ref(`data/`).push().set({
+		console.log('image->'+image);
+
+		/*firebase.database().ref(`data/`).push().set({
 			pet,
 			age,
 			description,
-			/*owner,
-			phone*/
+			picture: imagePath,
+			//owner,
+			//phone
 		}).then(() => console.log("INSERTED!"))
 		.catch((error) => console.log(error));
 
 		Alert.alert("Cadastro realizado com sucesso! ");
-		navigation.navigate('Adocao');
+		navigation.navigate('Adocao');*/
 	};
 
 	handlePicture = async () => {
-		console.log("try");
+		setLoading(true);
 		let result = await ImagePicker.launchCameraAsync();
 		if (!result.cancelled) {
-			//console.log(result.getLastPathSegment());
-			this.uploadImage(result.uri)
-			.then(() => {
-				console.log("deu boa");
-			})
-			.catch((error) => {
-				console.log(error.message);
-				Alert.alert(error.message);
-			});
+			setImageURI(result.uri);
 		}
-		firebase.storage().ref('images/').child(imageName).getDownloadURL()
-		.then(url => console.log(url))
-		.catch((error) => console.log(error.message));
+		
+		/*firebase.storage().ref('images').child(imageName)/*.getDownloadURL()
+		.then(url => {
+			imagePath = url;
+			console.log("url->"+url);
+		})
+		.catch((error) => console.log("não deu certo"));*/
 	}
 
 	uploadImage = async (uri) => {
-		console.log('uploadImage/uri->' + uri.substr(uri.lastIndexOf('/')+1));
+		
 		setImageName(uri.substr(uri.lastIndexOf('/')+1));
+		const img = uri.substr(uri.lastIndexOf('/')+1)
+		console.log("img->"+img);
 		if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
 		const response = await fetch(uri);
 		const blob = await response.blob();
-		console.log("log2 blob->" + blob);
-		var ref = firebase.storage().ref('images/').child(imageName);
-		console.log("log3 ref->" + ref);
+		var ref = firebase.storage().ref('images/').child(img);
 		return ref.put(blob);
-	  }
+	}
 
 	return (
 		<View style={{ flex: 1}}>
 			<View style={{ backgroundColor: "#2fb7a7", height: Constants.statusBarHeight}} />
 			<View style={styles.backgroundView}>
 				<Background />
+				<ActivityIndicator animating={loading} size='large'/>
 				<View style={styles.inputs}>
 					<Input value={pet} onChangeText={setPet} placeholder="Nome" icon="pet" />
 					<Input value={age} onChangeText={setAge} placeholder="Idade" icon="birthday" type="number-pad" />
