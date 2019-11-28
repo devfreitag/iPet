@@ -26,7 +26,7 @@ const mainNavigation = createStackNavigator(
   },
   {
     headerMode: 'none',
-    initialRouteName: 'CadastroAnimal',
+    initialRouteName: 'Login',
     navigationOptions: { headerVisible: false },
   },
 );
