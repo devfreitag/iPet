@@ -3,9 +3,11 @@ import {
 	StyleSheet,
 	View,
 	Alert,
+	Text,
 	TouchableOpacity,
 	Image,
-	ActivityIndicator
+	ActivityIndicator,
+	Modal
 } from 'react-native';
 import Background from '../components/Background';
 import Constants from 'expo-constants';
@@ -60,8 +62,8 @@ export default CadastroAnimal = ({ navigation }) => {
 	}, [imageURI]);
 
 	useEffect(() => {
-		console.log('effect imageName->' + imageName);
-	}, [imageName])
+		console.log('useEffect/loading->' + loading);
+	}, [loading])
 
 
 	handleSubmit = async () => {
@@ -116,7 +118,12 @@ export default CadastroAnimal = ({ navigation }) => {
 			<View style={{ backgroundColor: "#2fb7a7", height: Constants.statusBarHeight}} />
 			<View style={styles.backgroundView}>
 				<Background />
-				<ActivityIndicator animating={loading} size='large'/>
+				<Modal transparent={true} visible={loading}>
+					<View style={{justifyContent:'center', alignItems: 'center', borderBottomRadius: 50, backgroundColor: 'white'}}>
+						<ActivityIndicator animating={true} size='large'/>
+						<Text>Carrengado imagem...</Text>
+					</View>
+				</Modal>
 				<View style={styles.inputs}>
 					<Input value={pet} onChangeText={setPet} placeholder="Nome" icon="pet" />
 					<Input value={age} onChangeText={setAge} placeholder="Idade" icon="birthday" type="number-pad" />
