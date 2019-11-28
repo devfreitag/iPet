@@ -16,7 +16,7 @@ export default InfoAnimal = ({ navigation, id }) => {
     console.log('useEffect/id->['+id+']');
     if (id.length!=0) {
       console.log('passou da condicional');
-      firebase.database().ref(`data/${id}`).on('value', data => {
+      firebase.database().ref(`data/pet/${id}`).on('value', data => {
         setName(data.toJSON().pet);
         setAge(data.toJSON().age);
         setDescription(data.toJSON().description);

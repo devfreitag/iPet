@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   viewInfoContact: {
     justifyContent: 'center',
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     fontSize: 17,
   },
   ownerData: {

@@ -19,16 +19,32 @@ export default CadastroUser = ({ navigation }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	handleSubmit = () => {
-
-		firebase
+	handleSubmit = async () => {
+		console.log("init function");
+		await firebase
 		.auth()
 		.createUserWithEmailAndPassword(email, password)
-		.then(() => {
-			console.log('deu boa');
-			navigation.navigate('Login');
+		.then((userCredentials) => {
+			console.log(userCredentials);
+			if (userCredentials.user) {
+				userCredentials.user.updateProfile({
+					displayName: user,
+				})
+				.then(() => console.log("atualizou displayName"))
+				.catch((error) => console.log(error.message));
+			}
+			firebase.database().ref(`data/user/${userCredentials.user.uid}`).set({
+				name: user,
+				phone: '9999-9999'
+			}).then(() => {
+				console.log("Usuário cadastrado com sucesso!");
+				navigation.navigate('Login')
+			})
+			.catch((error) => console.log(error));
+			
 		})
-		.catch(error => alert(error.message))
+		.catch(error => alert(error.message));
+
 	}
 
 	return (
@@ -42,7 +58,7 @@ export default CadastroUser = ({ navigation }) => {
 					<Input value={email} onChangeText={setEmail} placeholder="e-mail" icon="mail" />
 					<Input value={password} onChangeText={setPassword} placeholder="senha" icon="lock" />
 				</View>
-				<ButtonSubmit name="CADASTRAR" onPress={handleSubmit} />
+				<ButtonSubmit name="CADASTRAR" onPress={this.handleSubmit} />
 			</View>
 		</View>
 	)

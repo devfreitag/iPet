@@ -10,21 +10,17 @@ import {
 import Background from '../components/Background';
 import Constants from 'expo-constants';
 import {ButtonRoutes } from '../components/Buttons';
+import * as firebase from 'firebase';
 
 
 export default Home = ({ navigation }) => {
 
-  state = {
-    fontLoaded: false,
-  }
+  const [user, setUser] = useState([]);
 
-  _irParaAdocao = () => {
-    this.props.navigation.navigate('Adocao');
-  };
-
-  _irParaDoacao = () => {
-    this.props.navigation.navigate('Doacao');
-  };
+  useEffect(() => {
+    const { currentUser } = firebase.auth()
+    setUser(currentUser);
+  }, []);
 
   return (
     <View style={{ flex: 1}}>
@@ -33,7 +29,7 @@ export default Home = ({ navigation }) => {
         <Background />
         <View style={styles.container}>
           <Image source={require('../../imgs/avatar.png')} />
-          <Text style={styles.title}>John Wick</Text>
+          <Text style={styles.title}>{user.displayName}</Text>
         </View>
         <View style={styles.btnView}>
             <View style={{alignItems: 'flex-end'}}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 
-export default function AnimalPicture() {
+export default function AnimalPicture({ picture }) {
   return (
     <View style={styles.viewImage}>
-      <Image source={require('../../imgs/dog1.jpg')} style={styles.image} />
+      <Image source={{uri:picture}} style={styles.image} />
     </View>
   );
 }

@@ -25,7 +25,7 @@ export default Adocao = ({ navigation }) => {
   fetchData = async() => {
     if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
     console.log('inside funtion');
-    firebase.database().ref('data').on('value', data => {
+    firebase.database().ref('data/pet').on('value', data => {
       console.log(data.toJSON());
       setData(data.toJSON());
     });
@@ -72,7 +72,7 @@ export default Adocao = ({ navigation }) => {
               {Object.keys(data).map((keyName, i) => {
                 return (
                   <View  key={i} style={styles.item}>
-                    <AnimalPicture />
+                    <AnimalPicture picture={data[keyName].picture}/>
                     <View style={styles.viewData}>
                       <Text style={[styles.text, {fontWeight: 'bold', alignSelf: 'center'}]}>{data[keyName].pet}</Text>
                       <Text style={styles.text}>

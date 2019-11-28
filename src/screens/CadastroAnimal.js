@@ -20,6 +20,7 @@ import ApyKeys from '../config/firebase';
 
 export default CadastroAnimal = ({ navigation }) => {
 
+	const [user, setUser] = useState([]);
 	const [pet, setPet] = useState('');
 	const [age, setAge] = useState('');
 	const [gender, setGender] = useState('');
@@ -31,6 +32,13 @@ export default CadastroAnimal = ({ navigation }) => {
 	useEffect(() => {
 		this.getPermissionCameraRoll();
 		this.getPermissionCamera();
+
+		const { currentUser } = firebase.auth();
+		console.log(currentUser);
+		firebase.database().ref(`data/user/${currentUser.uid}`).on('value', data => {
+			console.log(data.toJSON());
+			setUser(data.toJSON());
+		  });
 	}, []);
 
 	getPermissionCameraRoll = async () => {
@@ -78,13 +86,13 @@ export default CadastroAnimal = ({ navigation }) => {
 		.catch((error) => console.log("não deu certo"));
 
 		console.log(pet + '|' + age + '|' + description + '|' + imagePath);
-		firebase.database().ref(`data/`).push().set({
+		firebase.database().ref(`data/pet`).push().set({
 			pet,
 			age,
 			description,
 			picture: imagePath,
-			//owner,
-			//phone
+			owner: user.name,
+			phone: user.phone
 		}).then(() => console.log("Pet cadastrado com sucesso!"))
 		.catch((error) => console.log(error));
 
@@ -109,7 +117,7 @@ export default CadastroAnimal = ({ navigation }) => {
 		const response = await fetch(uri);
 		const blob = await response.blob();
 		var ref = firebase.storage().ref('images/').child(img);
-		return await ref.put(blob);
+		return ref.put(blob);
 		
 	}
 
