@@ -6,28 +6,28 @@ import {
   ScrollView,
   Modal,
   TouchableOpacity,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import AnimalPicture from '../components/AnimalPicture';
-import {ButtonInfo, ButtonCamera} from '../components/Buttons';
+import {ButtonInfo} from '../components/Buttons';
 import * as firebase from 'firebase';
-import ApyKeys from '../config/firebase';
 import Background from '../components/Background';
 import Constants from 'expo-constants';
 import InfoAnimal from '../screens/InfoAnimal';
 
-export default Adocao = ({ navigation }) => {
+export default Adocao = ({ }) => {
 
   const [data, setData] = useState([]);
   const [id, setId] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   fetchData = async() => {
-    if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
-    console.log('inside funtion');
-    firebase.database().ref('data/pet').on('value', data => {
+    await firebase.database().ref('data/pet').on('value', data => {
       console.log(data.toJSON());
       setData(data.toJSON());
+      setLoading(false);
     });
   }
 
@@ -35,12 +35,6 @@ export default Adocao = ({ navigation }) => {
     this.fetchData();
   }, []);
 
-  _irParaInfoAnimal = (i) => {
-    console.log(i);
-    
-    //navigation.navigate('InfoAnimal', {id: i});
-  };
-  // <ButtonCamera onPress={() => setModalVisible(false)} name="Fechar" />
   return (
     <View style={{ flex: 1}}>
 			<View style={{ backgroundColor: "#2fb7a7", height: Constants.statusBarHeight}} />
@@ -55,40 +49,45 @@ export default Adocao = ({ navigation }) => {
           <View style={styles.modalContainer}>
             <View style={styles.modalView}>
               <TouchableOpacity
-                  onPress={() => setModalVisible(false)}
-                  style={{alignItems:'flex-end'}}
-                >
-                  <Image source={require('../../imgs/icons/close.png')} />
-                </TouchableOpacity>
+                onPress={() => setModalVisible(false)}
+                style={{alignItems:'flex-end'}}
+              >
+                <Image source={require('../../imgs/icons/close.png')} />
+              </TouchableOpacity>
               <InfoAnimal id={id}/>
             </View>
-            
           </View>
         </Modal>
-        
 
-        <View style={styles.container}>
-            <ScrollView>
-              {Object.keys(data).map((keyName, i) => {
-                return (
-                  <View  key={i} style={styles.item}>
-                    <AnimalPicture picture={data[keyName].picture}/>
-                    <View style={styles.viewData}>
-                      <Text style={[styles.text, {fontWeight: 'bold', alignSelf: 'center'}]}>{data[keyName].pet}</Text>
-                      <Text style={styles.text}>
-                        {data[keyName].age} anos
-                      </Text>
-                      <Text style={styles.textDescription}>{data[keyName].description.length > 60 ? data[keyName].description.substring(0,60) +  '...' : data[keyName].description}</Text>
-                      <ButtonInfo onPress={() => {
-                        setModalVisible(true);
-                        setId(keyName);
+        {loading ? (
+          <View style={styles.loading}>
+            <ActivityIndicator animating={true} style={styles.loading} size='large'/>
+          </View>
+        ) : (
+        
+          <View style={styles.container}>
+              <ScrollView>
+                {Object.keys(data).map((keyName, i) => {
+                  return (
+                    <View  key={i} style={styles.item}>
+                      <AnimalPicture picture={data[keyName].picture}/>
+                      <View style={styles.viewData}>
+                        <Text style={[styles.text, {fontWeight: 'bold', alignSelf: 'center'}]}>{data[keyName].pet}</Text>
+                        <Text style={styles.text}>
+                          {data[keyName].age} anos
+                        </Text>
+                        <Text style={styles.textDescription}>{data[keyName].description.length > 60 ? data[keyName].description.substring(0,60) +  '...' : data[keyName].description}</Text>
+                        <ButtonInfo onPress={() => {
+                          setModalVisible(true);
+                          setId(keyName);
                         }} />
+                      </View>
                     </View>
-                  </View>
-              );
-            })}
-          </ScrollView>
-        </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -138,4 +137,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
   },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });

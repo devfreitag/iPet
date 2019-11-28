@@ -11,6 +11,7 @@ export default InfoAnimal = ({ navigation, id }) => {
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [phone, setPhone] = useState('');
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     console.log('useEffect/id->['+id+']');
@@ -22,6 +23,7 @@ export default InfoAnimal = ({ navigation, id }) => {
         setDescription(data.toJSON().description);
         setOwner(data.toJSON().owner);
         setPhone(data.toJSON().phone);
+        setImage(data.toJSON().picture);
         console.log('owner->'+data.toJSON().owner);
       });
     }
@@ -33,7 +35,7 @@ export default InfoAnimal = ({ navigation, id }) => {
     //<View style={styles.container}>
       <View style={styles.info}>
         <View style={styles.viewImage}>
-          <AnimalPicture />
+          <AnimalPicture picture={image}/>
         </View>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textAge}>{age} anos</Text>
