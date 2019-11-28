@@ -25,30 +25,11 @@ export default CadastroAnimal = ({ navigation }) => {
 	const [loading, setLoading] = useState(false);
 	const [imageURI, setImageURI] = useState('');
 	const [imageName, setImageName] = useState('');
-	const [imagePath, setImagePath] = useState('');
 
 	useEffect(() => {
 		this.getPermissionCameraRoll();
 		this.getPermissionCamera();
 	}, []);
-
-	useEffect(() => {
-		if (imageURI!=='') {
-			this.uploadImage(imageURI)
-			.then(() => {
-				console.log("deu boa/img");
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.log("erro aqui");
-				Alert.alert(error.message);
-			});
-		}
-	}, [imageURI]);
-
-	useEffect(() => {
-		console.log('effect imageName->' + imageName);
-	}, [imageName])
 
 	getPermissionCameraRoll = async () => {
 		let { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -64,23 +45,49 @@ export default CadastroAnimal = ({ navigation }) => {
 		}
 	}
 
-	handleSubmit = () => {
+	useEffect(() => {
+		if (imageURI!=='') {
+			setLoading(true);
+			this.uploadImage(imageURI)
+			.then(() => {
+				console.log("Upload de foto realizado com sucesso!");
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.log("Erro:" + error.message);
+			});
+		}
+	}, [imageURI]);
+
+	useEffect(() => {
+		console.log('effect imageName->' + imageName);
+	}, [imageName])
+
+
+	handleSubmit = async () => {
 		if (!firebase.apps.length) { firebase.initializeApp(ApyKeys.FirebaseConfig);}
 
-		console.log('image->'+image);
+		var imagePath;
+		await firebase.storage().ref('images').child(imageName).getDownloadURL()
+		.then(url => {
+			console.log('url->' + url);
+			imagePath = url;
+		})
+		.catch((error) => console.log("não deu certo"));
 
-		/*firebase.database().ref(`data/`).push().set({
+		console.log(pet + '|' + age + '|' + description + '|' + imagePath);
+		firebase.database().ref(`data/`).push().set({
 			pet,
 			age,
 			description,
 			picture: imagePath,
 			//owner,
 			//phone
-		}).then(() => console.log("INSERTED!"))
+		}).then(() => console.log("Pet cadastrado com sucesso!"))
 		.catch((error) => console.log(error));
 
 		Alert.alert("Cadastro realizado com sucesso! ");
-		navigation.navigate('Adocao');*/
+		//navigation.navigate('Adocao');*/
 	};
 
 	handlePicture = async () => {
@@ -89,13 +96,6 @@ export default CadastroAnimal = ({ navigation }) => {
 		if (!result.cancelled) {
 			setImageURI(result.uri);
 		}
-		
-		/*firebase.storage().ref('images').child(imageName)/*.getDownloadURL()
-		.then(url => {
-			imagePath = url;
-			console.log("url->"+url);
-		})
-		.catch((error) => console.log("não deu certo"));*/
 	}
 
 	uploadImage = async (uri) => {
@@ -107,7 +107,8 @@ export default CadastroAnimal = ({ navigation }) => {
 		const response = await fetch(uri);
 		const blob = await response.blob();
 		var ref = firebase.storage().ref('images/').child(img);
-		return ref.put(blob);
+		return await ref.put(blob);
+		
 	}
 
 	return (
