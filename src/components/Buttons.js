@@ -11,7 +11,7 @@ export function ButtonRoutes({onPress, name}) {
 
 export function ButtonCamera({onPress, name}) {
   return (
-    <TouchableHighlight style={styles.button} onPress={onPress}>
+    <TouchableHighlight style={[styles.button, styles.buttonCamera]} onPress={onPress}>
       <Text style={styles.textRoute}>{name}</Text>
     </TouchableHighlight>
   );
@@ -25,14 +25,17 @@ export function ButtonInfo({onPress}) {
   );
 }
 
+export function ButtonSubmit({onPress, name}) {
+  return (
+    <TouchableHighlight style={[styles.button, styles.buttonSubmit]} onPress={onPress}>
+      <Text style={styles.textInfo}>{name}</Text>
+    </TouchableHighlight>
+  );
+}
+
 const styles = StyleSheet.create({
-  textRoute: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
   button: {
-    backgroundColor: '#2fb7a7',
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 5,
     margin: 10,
@@ -40,17 +43,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonRoute: {
-    width: Dimensions.get('window').width / 1.5,
-    height: Dimensions.get('window').height / 10,
+    width: 235,
+    height: 65,
+    marginHorizontal: 0
   },
   buttonInfo: {
-    width: Dimensions.get('window').width / 2,
-    height: Dimensions.get('window').height / 20,
-    borderColor: 'white',
-    borderWidth: 2,
+    width: 210,
+    height: 40,
+    borderColor: '#2fb7a7',
+    borderWidth: 1,
+    borderRadius: 50
   },
   textInfo: {
-    color: 'white',
-    fontSize: 20,
+    color: '#2fb7a7',
+    fontSize: 18,
+    fontWeight: 'bold'
   },
+  textRoute: {
+    color: '#2fb7a7',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  buttonSubmit: {
+    borderRadius: 50,
+    height: 50,
+    width: 190,
+    backgroundColor: 'white',
+  },
+  buttonCamera: {
+    backgroundColor: 'black'
+  }
 });

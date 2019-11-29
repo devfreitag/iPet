@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,72 +7,61 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import {ButtonRoutes} from '../components/Buttons';
-import * as Font from 'expo-font';
+import Background from '../components/Background';
+import Constants from 'expo-constants';
+import {ButtonRoutes } from '../components/Buttons';
+import * as firebase from 'firebase';
 
-export default class Home extends Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    header: null,
-  });
 
-  state = {
-    fontLoaded: false,
-  }
+export default Home = ({ navigation }) => {
 
-  _irParaAdocao = () => {
-    this.props.navigation.navigate('Adocao');
-  };
+  const [user, setUser] = useState([]);
 
-  _irParaDoacao = () => {
-    this.props.navigation.navigate('Doacao');
-  };
+  useEffect(() => {
+    const { currentUser } = firebase.auth()
+    setUser(currentUser);
+  }, []);
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      'GROBOLD': require('../../assets/fonts/GROBOLD.ttf'),
-    });
-    this.setState({ fontLoaded: true });
-  }
-
-  render() {
-    return (
-      this.state.fontLoaded ? (
-      <View style={styles.container}>
-        <View style={{flex: 2, justifyContent: 'center', marginTop: 20}}>
-          <Text style={styles.title}>iPet</Text>
+  return (
+    <View style={{ flex: 1}}>
+			<View style={{ backgroundColor: "#2fb7a7", height: Constants.statusBarHeight}} />
+      <View style={styles.backgroundView}>
+        <Background />
+        <View style={styles.container}>
+          <Image source={require('../../imgs/avatar.png')} />
+          <Text style={styles.title}>{user.displayName}</Text>
         </View>
-        <View style={{flex: 4, justifyContent: 'center'}}>
-          <ButtonRoutes onPress={() => this._irParaAdocao()} name='ADOÇÃO'/>
-          <ButtonRoutes onPress={() => this._irParaDoacao()} name='DOAÇÃO'/>
-        </View>
-        <View style={styles.viewImage}>
-          <Image source={require('../../imgs/patas.png')} style={styles.image} />
-        </View>
-      </View>) : null
-    );
-  }
+        <View style={styles.btnView}>
+            <View style={{alignItems: 'flex-end'}}>
+              <ButtonRoutes name="QUERO ADOTAR!" onPress={() => navigation.navigate('Adocao')}/>
+            </View>
+            <View style={{alignItems: 'flex-start'}}>
+              <ButtonRoutes name="QUERO DOAR!" onPress={() => navigation.navigate('CadastroAnimal')}/>
+            </View>
+          </View>
+      </View>
+    </View>
+  );
+  
 };
 
 const styles = StyleSheet.create({
+  backgroundView: {
+		flex: 1,
+		backgroundColor: '#2fb7a7',
+  }, 
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    //justifyContent: 'center',
+    marginTop: 20,
     alignItems: 'center',
   },
   title: {
-    color: 'black',
-    fontSize: 60,
-    fontFamily: 'GROBOLD',
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+    alignItems: 'center',
+    marginTop: 10
   },
-  viewImage: {
-    flex: 3,
-    //padding: 30,
-    //marginBottom: 50
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'contain',
-    //width: 500
-  },
+  btnView: {
+    marginTop: 90,
+  }
 });

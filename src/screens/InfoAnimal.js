@@ -1,35 +1,45 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text } from 'react-native';
-import Title from '../components/Title';
 import Contact from '../components/Contact';
 import * as firebase from 'firebase';
+import AnimalPicture from '../components/AnimalPicture';
 
-export default InfoAnimal = ({ navigation }) => {
+export default InfoAnimal = ({ navigation, id }) => {
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [description, setDescription] = useState('');
   const [owner, setOwner] = useState('');
   const [phone, setPhone] = useState('');
+  const [image, setImage] = useState('');
 
   useEffect(() => {
-    const id = navigation.getParam('id', 0);
-    firebase.database().ref(`data/${id}`).on('value', data => {
-      setName(data.toJSON().name);
-      setAge(data.toJSON().age);
-      setDescription(data.toJSON().description);
-      setOwner(data.toJSON().owner);
-      setPhone(data.toJSON().phone);
-      console.log('owner->'+data.toJSON().owner);
-    });
+    console.log('useEffect/id->['+id+']');
+    if (id.length!=0) {
+      console.log('passou da condicional');
+      firebase.database().ref(`data/pet/${id}`).on('value', data => {
+        setName(data.toJSON().pet);
+        setAge(data.toJSON().age);
+        setDescription(data.toJSON().description);
+        setOwner(data.toJSON().owner);
+        setPhone(data.toJSON().phone);
+        setImage(data.toJSON().picture);
+        console.log('owner->'+data.toJSON().owner);
+      });
+    }
   }, []);
 
+
   return (
-    <View style={styles.container}>
-      <Title name="Info" onPress={() => {navigation.goBack()}}/>
+    console.log('return/id->'+id),
+    //<View style={styles.container}>
       <View style={styles.info}>
+        <View style={styles.viewImage}>
+          <AnimalPicture picture={image}/>
+        </View>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textAge}>{age} anos</Text>
+        <Text style={styles.textAge}>Fêmea</Text>
         <Text style={styles.textInfo}>
           {description}
         </Text>
@@ -37,32 +47,31 @@ export default InfoAnimal = ({ navigation }) => {
           <Contact owner={owner} phone={phone} />
         </View>
       </View>
-    </View>
+    //</View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
   info: {
-    backgroundColor: '#2fb7a7',
-    marginHorizontal: 20,
-    borderRadius: 10,
-    padding: 15
+    padding: 15,
   },
   textName: {
     fontSize: 20,
     fontWeight: 'bold',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    color: '#2fb7a7'
   },
   textAge: {
     fontSize: 19,
+    color: '#2fb7a7'
   },
   textInfo: {
     fontSize: 17,
-    marginTop: 25,
-    fontStyle: 'italic'
+    marginTop: 20,
+    fontStyle: 'italic',
+    color: '#2fb7a7'
+  },
+  viewImage: {
+    alignItems: 'center'
   }
 });

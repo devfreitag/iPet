@@ -112,7 +112,7 @@ function Doacao  ({ navigation, isFocused }) {
           value={dog}
           onChangeText={setDog}
           style={styles.inputs}
-          placeholder="Nome do cachorro" 
+          placeholder="Nome do pet" 
         />
         <View style={styles.inputs}>
           <Picker

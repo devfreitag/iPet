@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AnimalPicture from '../components/AnimalPicture';
+import {View, StyleSheet, Text, Image} from 'react-native';
 
 export default function Contact({ owner, phone }) {
   useEffect(() => {
@@ -13,20 +11,12 @@ export default function Contact({ owner, phone }) {
     <View style={styles.container}>
       <View style={styles.viewContact}>
         <View style={styles.viewIcon}>
-          <Icon
-            style={styles.icon}
-            name={'phone'}
-            size={40}
-            //onPress={onPress}
-          />
+          <Image source={require('../../imgs/icons/phone.png')} />
         </View>
         <View style={styles.viewInfoContact}>
           <Text>Entre em contato com:</Text>
           <Text style={styles.ownerData}>{owner} - {phone}</Text>
         </View>
-      </View>
-      <View style={styles.viewImage}>
-        <AnimalPicture />
       </View>
     </View>
   );
@@ -36,26 +26,25 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     alignContent: 'center',
-    backgroundColor: '#2fb7a7'
+    borderRadius: 10,
+    backgroundColor: '#2fb7a7',
   },
   viewContact: {
     flexDirection: 'row',
-    borderWidth: 2,
-    borderColor: 'white',
-    borderRadius: 8,
+    paddingVertical: 5
   },
   viewIcon: {
     padding: 10,
   },
   viewInfoContact: {
     justifyContent: 'center',
-    paddingLeft: 10,
-    fontSize: 20,
+    paddingHorizontal: 10,
+    fontSize: 17,
   },
   ownerData: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 25
+    fontSize: 22
   },
   viewImage: {
     alignItems: 'center',
