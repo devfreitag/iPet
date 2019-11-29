@@ -38,7 +38,7 @@ export default Login = ({ navigation }) => {
 				<Title name="iPet"/>
 				<View style={styles.inputs}>
 					<Input value={email} onChangeText={setEmail} placeholder="e-mail" icon="mail" />
-					<Input value={password} onChangeText={setPassword} placeholder="senha" icon="lock" />
+					<Input value={password} onChangeText={setPassword} placeholder="senha" icon="lock" secureTextEntry={true} />
 				</View>
 				<ButtonSubmit name="LOGIN" onPress={handleSubmit} />
 				<TouchableHighlight style={{marginTop: 10}} onPress={() => navigation.navigate('CadastroUser')}>

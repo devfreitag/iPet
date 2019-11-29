@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Image } from 'react-native';
 
-export default function Input({placeholder, icon, type, value, onChangeText}) {
+export default function Input({placeholder, icon, type, value, onChangeText, secureTextEntry = false}) {
 
 	var logo;
 	if (icon==='mail') logo = require('../../imgs/icons/mail.png');
@@ -11,6 +11,7 @@ export default function Input({placeholder, icon, type, value, onChangeText}) {
 	else if (icon==='birthday') logo = require('../../imgs/icons/birthday.png');
 	else if (icon==='gender') logo = require('../../imgs/icons/gender.png');
 	else if (icon==='description') logo = require('../../imgs/icons/description.png');
+	else if (icon==='phone1') logo = require('../../imgs/icons/phone1.png');
 	
 	return (
 		<View style={styles.container}>
@@ -24,6 +25,7 @@ export default function Input({placeholder, icon, type, value, onChangeText}) {
 				onChangeText={onChangeText}
 				style={styles.input}
 				keyboardType={type}
+				secureTextEntry={secureTextEntry}
 			/>
 		</View>	
 	)

@@ -18,6 +18,7 @@ export default CadastroUser = ({ navigation }) => {
 	const [user, setUser] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [phone, setPhone] = useState('');
 
 	handleSubmit = async () => {
 		console.log("init function");
@@ -35,9 +36,9 @@ export default CadastroUser = ({ navigation }) => {
 			}
 			firebase.database().ref(`data/user/${userCredentials.user.uid}`).set({
 				name: user,
-				phone: '9999-9999'
+				phone: phone
 			}).then(() => {
-				console.log("Usuário cadastrado com sucesso!");
+				alert("Usuário cadastrado com sucesso!");
 				navigation.navigate('Login')
 			})
 			.catch((error) => console.log(error));
@@ -56,7 +57,8 @@ export default CadastroUser = ({ navigation }) => {
 				<View style={styles.inputs}>
 					<Input value={user} onChangeText={setUser} placeholder="name" icon="user" />
 					<Input value={email} onChangeText={setEmail} placeholder="e-mail" icon="mail" />
-					<Input value={password} onChangeText={setPassword} placeholder="senha" icon="lock" />
+					<Input value={password} onChangeText={setPassword} placeholder="senha" icon="lock" secureTextEntry={true} />
+					<Input value={phone} onChangeText={setPhone} placeholder="telefone" icon="phone1" type="phone-pad" />
 				</View>
 				<ButtonSubmit name="CADASTRAR" onPress={this.handleSubmit} />
 			</View>

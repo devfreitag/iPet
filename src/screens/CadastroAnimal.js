@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
 	StyleSheet,
 	View,
-	Alert,
 	Text,
 	TouchableOpacity,
 	Image,
@@ -96,8 +95,8 @@ export default CadastroAnimal = ({ navigation }) => {
 		}).then(() => console.log("Pet cadastrado com sucesso!"))
 		.catch((error) => console.log(error));
 
-		Alert.alert("Cadastro realizado com sucesso! ");
-		//navigation.navigate('Adocao');*/
+		alert("Pet cadastrado com sucesso!");
+		navigation.navigate('Adocao');
 	};
 
 	handlePicture = async () => {
@@ -143,7 +142,7 @@ export default CadastroAnimal = ({ navigation }) => {
 						<Image source={require('../../imgs/icons/camera.png')} />
 					</TouchableOpacity>
 				</View>
-				<ButtonSubmit name="CADASTRAR" onPress={() => this.handleSubmit()/*navigation.navigate('Login')*/} />
+				<ButtonSubmit name="CADASTRAR" onPress={() => this.handleSubmit()} />
 			</View>
 		</View>
 	)
