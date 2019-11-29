@@ -19,13 +19,13 @@ Fornecer um portal prático e intuitivo para doação e adoção de cães e gato
 ![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/login.png)
 
 ### Cadastro Usuário:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singup-user.png)
+![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singupUser.png)
 
 ### Home:
 ![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/home.png)
 
 ### Cadastro Pet:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singup-pet.png)
+![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singupPet.png)
 
 ### List:
 ![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/list.png)
