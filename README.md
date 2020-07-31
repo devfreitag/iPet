@@ -1,19 +1,20 @@
-# Projeto iPet
+<div align="center">
+  <img alt="iPet" src="imgs/logo.png">
+</div>
 
+<h3 align="center">
+  Mobile application made to help pets to be adopted.
+</h3>
 
-## Objetivo Geral
-Promover a doação e adoção de cães e gatos.
+## Goal
+Promote the adoption and donation of dogs and cats, aiming to decrease the amount of abandoned animals.
 
-## Objetivos Específicos
+## Functionalities
  
- - Fazer a integração entre donos e cães/gatos a partir de um cadastramento de informações.
- - Apresentar animais para adoção mostrando informações como espécie, gênero, raça, características e foto. 
+ - Make the integration between owners and pets from an information register.
+ - Present pets for adoption showing information such as species, gender, breed, characteristics and photo. 
 
-## Justificativa
-Fornecer um portal prático e intuitivo para doação e adoção de cães e gatos, visando diminuir a quantidade de animais abandonados. 
-
-
-## Printscreen
+## Screenshots
 
 ### Login:
 ![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/login.png)
