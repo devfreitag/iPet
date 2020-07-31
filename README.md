@@ -14,7 +14,7 @@ Promote the adoption and donation of dogs and cats, aiming to decrease the amoun
  - Make the integration between owners and pets from an information register.
  - Present pets for adoption showing information such as species, gender, breed, characteristics and photo. 
 
-## Showcase
+## Demonstration
 <div align="center">
   <img alt="iPetGid" src="imgs/iPet.gif">
 </div>
