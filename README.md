@@ -14,22 +14,10 @@ Promote the adoption and donation of dogs and cats, aiming to decrease the amoun
  - Make the integration between owners and pets from an information register.
  - Present pets for adoption showing information such as species, gender, breed, characteristics and photo. 
 
-## Screenshots
+## Showcase
+<div align="center">
+  <img alt="iPetGid" src="imgs/iPet.gif">
+</div>
 
-### Login:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/login.png)
-
-### Cadastro Usuário:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singupUser.png)
-
-### Home:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/home.png)
-
-### Cadastro Pet:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/singupPet.png)
-
-### List:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/list.png)
-
-### Info do Pet:
-![home](https://github.com/alexxfreitag/iPet/blob/master/imgs/prints/info.png)
+---
+Made with 💜 by Alex Freitag.
